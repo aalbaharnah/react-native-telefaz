@@ -24,12 +24,14 @@
       "edgeToEdgeEnabled": true,
       "splash": {
         "image": "./assets/images/splash.png"
-      }
+      },
+      "package": "com.aalbaharnah.reactnativetelefaz"
     },
     "ios": {
       "splash": {
         "image": "./assets/images/splash.png"
-      }
+      },
+      "bundleIdentifier": "com.aalbaharnah.reactnativetelefaz"
     },
     "web": {
       "bundler": "metro",
