@@ -2,23 +2,16 @@ import FocusableBox from "@/src/components/focusable-box";
 import { useScale } from "@/src/hooks/useScale";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useFocusedShowStore } from "@/src/zustand/focused-show.store";
+import { router } from "expo-router";
 import { use, useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Text, ImageBackground, TVFocusGuideView, Pressable } from "react-native";
 
 export default function ShowScreen() {
     const ref = useRef<typeof TVFocusGuideView>(null);
 
-    const [showFoucuse, setShowFocus] = useState(false);
     const theme = useTheme();
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
     const styles = useStyles();
-
-    useEffect(() => {
-        setShowFocus(true);
-        () => {
-            setShowFocus(false);
-        }
-    }, [])
 
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -31,12 +24,14 @@ export default function ShowScreen() {
                 <View style={{ flex: 2 }}>
 
                 </View>
-                {showFoucuse && (
-                    <TVFocusGuideView hasTVPreferredFocus={showFoucuse} autoFocus style={styles.view}>
-                        <FocusableBox style={styles.sideMenuItem} onFocus={() => { }} />
-                        <FocusableBox style={styles.sideMenuItem} onFocus={() => { }} />
-                    </TVFocusGuideView>
-                )}
+
+                <View style={styles.view}>
+                    <FocusableBox style={styles.sideMenuItem} onFocus={() => { }}
+                        text="Play"
+                        onPress={() => router.push(`/show/${focusedShow?.id}/player`)}
+                    />
+                    <FocusableBox style={styles.sideMenuItem} onFocus={() => { }} />
+                </View>
             </ImageBackground>
         </View >
     );

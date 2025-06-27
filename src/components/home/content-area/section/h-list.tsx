@@ -57,11 +57,11 @@ const HList = React.forwardRef(({
             <Pressable
                 onFocus={onFocus}
                 onPress={onPress}
-                tvParallaxProperties={{
-                    enabled: true,
-                    magnification: 1.1,
-                    tiltAngle: 0
-                }}
+                // tvParallaxProperties={{
+                //     enabled: true,
+                //     magnification: 1.1,
+                //     tiltAngle: 0
+                // }}
                 style={state => [
                     styles.show,
                     { borderColor: state.focused ? theme.tint : "trasparent", borderWidth: 4 },
