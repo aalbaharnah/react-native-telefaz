@@ -15,3 +15,24 @@ export function isJsonString(str?: string): str is string {
     }
     return true;
 }
+
+/**
+ * Generates an array of numbers from 0 to length - 1, or random numbers if randomize is true.
+ * @param length number of items in the array
+ * @param randomize boolean indicating whether to generate random numbers
+ * @returns array of numbers
+ */
+export function generateData(length: number = 10, randomize: boolean = false) {
+    return Array.from({ length }).map((_, index) => {
+        if (randomize) {
+            return Math.floor(Math.random() * 999);
+        }
+
+        return index;
+    });
+};
+
+
+export function getItemText({ item, prefix }: { item: number, prefix: string }) {
+    return prefix ? `${prefix}-${item}` : `${item}`;
+};
