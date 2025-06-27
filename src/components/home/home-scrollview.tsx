@@ -4,12 +4,13 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import { ThemedView } from '@/src/components/ThemedView';
 import { useScale } from '@/src/hooks/useScale';
+import ShowPreview from './show-preview';
 
 interface Props extends PropsWithChildren {
     headerBackgroundColor: { dark: string; light: string };
 }
 
-export default function HomeScrollView({ children, headerBackgroundColor }: Props) {
+export default function HomeScrollView({ children }: Props) {
     const colorScheme = useColorScheme() ?? 'light';
     const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
@@ -17,17 +18,7 @@ export default function HomeScrollView({ children, headerBackgroundColor }: Prop
 
     return (
         <ThemedView style={styles.container}>
-            <Animated.View
-                style={[
-                    styles.header,
-                    { backgroundColor: headerBackgroundColor[colorScheme] }
-                ]}
-            >
-                <Animated.Image
-                    source={require('@/assets/images/partial-react-logo.png')}
-                    style={styles.reactLogo}
-                />
-            </Animated.View>
+            <ShowPreview />
             <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
                 <ThemedView style={styles.content}>{children}</ThemedView>
             </Animated.ScrollView>
@@ -41,22 +32,12 @@ const useParallaxScrollViewStyles = function () {
         container: {
             flex: 1,
         },
-        header: {
-            height: 125 * scale,
-            overflow: 'hidden',
-        },
         content: {
             flex: 1,
-            padding: 32 * scale,
+            paddingHorizontal: 32 * scale,
+            paddingVertical: 16 * scale,
             gap: 16 * scale,
             overflow: 'hidden',
-        },
-        reactLogo: {
-            height: 178 * scale,
-            width: 290 * scale,
-            bottom: 0,
-            left: 0,
-            position: 'absolute',
-        },
+        }
     });
 };

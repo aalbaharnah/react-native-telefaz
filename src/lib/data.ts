@@ -1,4 +1,4 @@
-export default [
+const data =  [
     {
         "section": "أفلام",
         "data": [
@@ -23,4 +23,11 @@ export default [
     }
 ]
 
+export type Show = typeof data[0]['data'][0];
 
+export type Section = {
+    section: string;
+    data: Show[];
+};
+
+export default data;

@@ -14,28 +14,28 @@ export const textStyles = function (
     default: {
       fontSize: 16 * scale,
       lineHeight: 24 * scale,
-      fontFamily: 'IBMPlexMono-Regular',
+      fontFamily: 'IBMPlexSansArabic-Regular',
     },
     defaultSemiBold: {
       fontSize: 16 * scale,
       lineHeight: 24 * scale,
-      fontFamily: 'IBMPlexMono-SemiBold',
+      fontFamily: 'IBMPlexSansArabic-SemiBold',
     },
     title: {
       fontSize: 32 * scale,
-      fontFamily: 'IBMPlexMono-Bold',
+      fontFamily: 'IBMPlexSansArabic-Bold',
       lineHeight: 32 * scale,
     },
     subtitle: {
       fontSize: 20 * scale,
       lineHeight: 20 * scale,
-      fontFamily: 'IBMPlexMono-Bold',
+      fontFamily: 'IBMPlexSansArabic-Bold',
     },
     link: {
       lineHeight: 30 * scale,
       fontSize: 16 * scale,
       color: linkColor,
-      fontFamily: 'IBMPlexMono-Regular',
+      fontFamily: 'IBMPlexSansArabic-Regular',
     },
   };
 };

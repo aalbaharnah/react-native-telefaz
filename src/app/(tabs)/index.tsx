@@ -1,15 +1,16 @@
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import HomeScrollView from '@/src/components/home/scrollview';
+import HomeScrollView from '@/src/components/home/home-scrollview';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedView } from '@/src/components/ThemedView';
 import { useScale } from '@/src/hooks/useScale';
 import data from '@/src/lib/data';
 import Animated from 'react-native-reanimated';
+import ShowItem from '@/src/components/home/section/show-item';
 
 export default function HomeScreen() {
   const styles = useHomeScreenStyles();
   return (
-    <HomeScrollView headerBackgroundColor={{ light: '#FFD1C2', dark: '#000000' }}>
+    <HomeScrollView>
       {data.map((item, index) => (
         <ThemedView key={index} style={styles.section}>
           <ThemedText>
@@ -22,23 +23,11 @@ export default function HomeScreen() {
             keyExtractor={(item) => item.imdbID}
             contentContainerStyle={styles.shows}
             renderItem={({ item: show, index: stepIndex }) => (
-              <TouchableOpacity
-                style={styles.show}
-                hasTVPreferredFocus={index === 0} // autoFocus on the first item
-                onFocus={() => {
-                  // Handle show selection
-                  console.log(`Selected show: ${show.Title}`);
-                }}
-              >
-                <Image source={{ uri: show.Poster }} style={styles.thumbnail} />
-                <ThemedText style={styles.title}>{show.Title}</ThemedText>
-              </TouchableOpacity>
+              <ShowItem {...{ show, index: index + (stepIndex / 10) }} />
             )}
           />
         </ThemedView>
-      ))
-      }
-
+      ))}
     </HomeScrollView>
   );
 }
