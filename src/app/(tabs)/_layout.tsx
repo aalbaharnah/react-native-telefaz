@@ -2,11 +2,11 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, Pressable } from 'react-native';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useTextStyles } from '@/hooks/useTextStyles';
-import { useScale } from '@/hooks/useScale';
+import { TabBarIcon } from '@/src/components/navigation/TabBarIcon';
+import { Colors } from '@/src/constants/Colors';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { useTextStyles } from '@/src/hooks/useTextStyles';
+import { useScale } from '@/src/hooks/useScale';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();

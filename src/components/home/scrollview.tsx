@@ -2,8 +2,8 @@ import type { PropsWithChildren, ReactElement } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
-import { ThemedView } from '@/components/ThemedView';
-import { useScale } from '@/hooks/useScale';
+import { ThemedView } from '@/src/components/ThemedView';
+import { useScale } from '@/src/hooks/useScale';
 
 interface Props extends PropsWithChildren {
     headerBackgroundColor: { dark: string; light: string };

@@ -7,8 +7,8 @@ import Animated, {
   useScrollViewOffset,
 } from 'react-native-reanimated';
 
-import { ThemedView } from '@/components/ThemedView';
-import { useScale } from '@/hooks/useScale';
+import { ThemedView } from '@/src/components/ThemedView';
+import { useScale } from '@/src/hooks/useScale';
 
 type Props = PropsWithChildren<{
   headerImage: ReactElement;

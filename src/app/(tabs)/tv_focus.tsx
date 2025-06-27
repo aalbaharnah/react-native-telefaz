@@ -1,12 +1,12 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Platform } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { EventHandlingDemo } from '@/components/EventHandlingDemo';
-import { useScale } from '@/hooks/useScale';
+import { Collapsible } from '@/src/components/Collapsible';
+import ParallaxScrollView from '@/src/components/ParallaxScrollView';
+import { ThemedText } from '@/src/components/ThemedText';
+import { ThemedView } from '@/src/components/ThemedView';
+import { EventHandlingDemo } from '@/src/components/EventHandlingDemo';
+import { useScale } from '@/src/hooks/useScale';
 
 export default function FocusDemoScreen() {
   const styles = useFocusDemoScreenStyles();

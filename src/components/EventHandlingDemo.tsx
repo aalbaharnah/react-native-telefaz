@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { useScale } from '@/hooks/useScale';
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { ThemedText } from '@/src/components/ThemedText';
+import { ThemedView } from '@/src/components/ThemedView';
+import { useScale } from '@/src/hooks/useScale';
+import { useThemeColor } from '@/src/hooks/useThemeColor';
 
 const useTVEventHandler = Platform.isTV
   ? require('react-native').useTVEventHandler

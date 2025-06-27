@@ -8,9 +8,9 @@ import {
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
 import { QueryClientProvider } from '@tanstack/react-query';
-import client from '@/lib/react-query';
+import client from '@/src/lib/react-query';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,10 +26,10 @@ export default function RootLayout() {
   // const value = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
   const value = DarkTheme
   const [loaded, error] = useFonts({
-    ['SpaceMono']: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ['IBMPlexSansArabic-Regular']: require('../assets/fonts/IBMPlexSansArabic-Regular.ttf'),
-    ['IBMPlexSansArabic-SemiBold']: require('../assets/fonts/IBMPlexSansArabic-SemiBold.ttf'),
-    ['IBMPlexSansArabic-Bold']: require('../assets/fonts/IBMPlexSansArabic-Bold.ttf')
+    ['SpaceMono']: require('../../assets/fonts/SpaceMono-Regular.ttf'),
+    ['IBMPlexSansArabic-Regular']: require('../../assets/fonts/IBMPlexSansArabic-Regular.ttf'),
+    ['IBMPlexSansArabic-SemiBold']: require('../../assets/fonts/IBMPlexSansArabic-SemiBold.ttf'),
+    ['IBMPlexSansArabic-Bold']: require('../../assets/fonts/IBMPlexSansArabic-Bold.ttf')
   });
 
   useEffect(() => {

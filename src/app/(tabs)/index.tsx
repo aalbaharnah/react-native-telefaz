@@ -1,9 +1,9 @@
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import HomeScrollView from '@/components/home/scrollview';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { useScale } from '@/hooks/useScale';
-import data from '@/lib/data';
+import HomeScrollView from '@/src/components/home/scrollview';
+import { ThemedText } from '@/src/components/ThemedText';
+import { ThemedView } from '@/src/components/ThemedView';
+import { useScale } from '@/src/hooks/useScale';
+import data from '@/src/lib/data';
 import Animated from 'react-native-reanimated';
 
 export default function HomeScreen() {
