@@ -1,9 +1,11 @@
 import { useScale } from "@/src/hooks/useScale";
 import * as React from "react";
-import { ScrollView, Text, TVFocusGuideView, StyleSheet } from "react-native";
+import { ScrollView, Text, TVFocusGuideView, StyleSheet, FlatList } from "react-native";
 import Section from "./section";
 import FocusableBox from "../../focusable-box";
 import Categories from "./categories";
+import { generateData } from "@/src/lib/utils";
+import ShowPreview from "../show-preview";
 
 interface ContentAreaProps {
     sideMenuRef: {
@@ -15,18 +17,16 @@ const ContentArea = React.forwardRef(({ sideMenuRef }: ContentAreaProps, forward
     const styles = useStyles();
     return (
         <TVFocusGuideView ref={forwardedRef} autoFocus style={{ flex: 1 }}>
-
+            <Text style={styles.pageTitle}>
+                أهلا علي
+            </Text>
+            <ShowPreview />
             <ScrollView>
-                <Text style={styles.pageTitle}>
-                    أهلا علي
-                </Text>
                 <Categories title="Category Example 1" />
                 <Section />
                 <Section />
 
-                <TVFocusGuideView autoFocus style={styles.cols}>
-                    <Col title="Genres" />
-                    <Col title="Genres" />
+                <TVFocusGuideView style={styles.cols}>
                     <Col title="Genres" />
                 </TVFocusGuideView>
 
@@ -37,13 +37,13 @@ const ContentArea = React.forwardRef(({ sideMenuRef }: ContentAreaProps, forward
 
 const Col = ({ title }: { title: string }) => {
     const styles = useStyles();
+    const data = React.useMemo(() => generateData(10), []);
     return (
         <TVFocusGuideView autoFocus style={styles.col}>
             <Text style={styles.colTitle}>{title}</Text>
-            <FocusableBox text="0" style={styles.colItem} />
-            <FocusableBox text="1" style={styles.colItem} />
-            <FocusableBox text="2" style={styles.colItem} />
-            <FocusableBox text="3" style={styles.colItem} />
+            {data.map((item, index) => (
+                <FocusableBox key={index.toString()} text={index.toString()} style={styles.colItem} />
+            ))}
         </TVFocusGuideView>
     );
 };

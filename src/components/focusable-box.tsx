@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Pressable, Text } from "react-native";
-
-import { useScale } from '../hooks/useScale';
 import { useTheme } from '../hooks/useTheme';
+import { useScale } from '../hooks/useScale';
+
 
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
     text?: string;
     slow?: boolean;
     onFocus?: (e: FocusEvent, id?: number) => void;
-    onPress?: () => void;
+    onPress?: any;
     style?: any;
     hasTVPreferredFocus?: boolean;
 }
@@ -28,7 +28,7 @@ const FocusableBox = React.forwardRef((props: Props, forwardRef: any) => {
     }
 
     const onFocus = (e: any) => props?.onFocus?.(e, id);
-    const onPress = (e: any) => props?.onPress?.();
+    const onPress = (e: any) => props?.onPress?.(e, id);
 
     return (
         <Pressable

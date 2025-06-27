@@ -10,21 +10,14 @@ export default function ShowPreview() {
     const styles = useStyles();
 
     const source = { uri: focusedShow?.Poster ?? "" };
+
     return (
         <ImageBackground
             style={styles.header}
             source={source}
             blurRadius={18}
         >
-            <View
-                style={{
-                    position: 'absolute',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    width: '100%',
-                    height: '100%',
-                    flexDirection: 'row',
-                }}
-            >
+            <View style={styles.backdrop}>
                 <Animated.Image
                     source={source}
                     style={styles.poster}
@@ -48,6 +41,12 @@ const useStyles = function () {
             height: 175 * scale,
             overflow: 'hidden',
             backgroundColor: 'rgba(0, 0, 0, 1)',
+            flexDirection: 'row',
+        },
+        backdrop: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            flex: 1,
+            flexGrow: 1,
             flexDirection: 'row',
         },
         poster: {
