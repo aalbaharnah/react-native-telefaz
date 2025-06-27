@@ -1,6 +1,3 @@
-// import global styles for NativeWind
-import './globals.css';
-
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -26,8 +23,13 @@ configureReanimatedLogger({
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  // const value = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  const value = DarkTheme
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ['SpaceMono']: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ['IBMPlexSansArabic-Regular']: require('../assets/fonts/IBMPlexSansArabic-Regular.ttf'),
+    ['IBMPlexSansArabic-SemiBold']: require('../assets/fonts/IBMPlexSansArabic-SemiBold.ttf'),
+    ['IBMPlexSansArabic-Bold']: require('../assets/fonts/IBMPlexSansArabic-Bold.ttf')
   });
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={client}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={value}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

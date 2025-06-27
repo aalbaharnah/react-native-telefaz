@@ -1,72 +1,80 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import HomeScrollView from '@/components/home/scrollview';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useScale } from '@/hooks/useScale';
+import data from '@/lib/data';
+import Animated from 'react-native-reanimated';
 
 export default function HomeScreen() {
   const styles = useHomeScreenStyles();
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
+    <HomeScrollView headerBackgroundColor={{ light: '#FFD1C2', dark: '#000000' }}>
+      {data.map((item, index) => (
+        <ThemedView key={index} style={styles.section}>
+          <ThemedText>
+            {item.section}
+          </ThemedText>
+
+          <Animated.FlatList
+            horizontal
+            data={item.data}
+            keyExtractor={(item) => item.imdbID}
+            contentContainerStyle={styles.shows}
+            renderItem={({ item: show, index: stepIndex }) => (
+              <TouchableOpacity
+                style={styles.show}
+                hasTVPreferredFocus={index === 0} // autoFocus on the first item
+                onFocus={() => {
+                  // Handle show selection
+                  console.log(`Selected show: ${show.Title}`);
+                }}
+              >
+                <Image source={{ uri: show.Poster }} style={styles.thumbnail} />
+                <ThemedText style={styles.title}>{show.Title}</ThemedText>
+              </TouchableOpacity>
+            )}
+          />
+        </ThemedView>
+      ))
       }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{' '}
-          to see changes. Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{' '}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{' '}
-          directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+
+    </HomeScrollView>
   );
 }
 
 const useHomeScreenStyles = function () {
   const scale = useScale();
   return StyleSheet.create({
-    titleContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+    section: {
+      flexDirection: 'column',
       gap: 8 * scale,
     },
-    stepContainer: {
+    shows: {
+      flexDirection: 'row',
+      // overflow: 'hidden',
+      // paddingHorizontal: 16 * scale,
+      // paddingVertical: 8 * scale,
       gap: 8 * scale,
-      marginBottom: 8 * scale,
+      // marginBottom: 16 * scale,
+      // backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      // borderRadius: 8 * scale,
+    },
+    show: {
+      width: 300,
+      height: 200,
+      borderRadius: 10,
+      overflow: 'hidden',
+    },
+    thumbnail: {
+      width: '100%',
+      height: 170,
+      borderRadius: 10,
+    },
+    title: {
+      marginTop: 5,
+      fontSize: 18,
+      color: 'white',
     },
     reactLogo: {
       height: 178 * scale,
