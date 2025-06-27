@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Show } from '../lib/data';
+import { Show } from '../lib/types';
 
 interface FocusedShowState {
     focusedShow: Show | null;

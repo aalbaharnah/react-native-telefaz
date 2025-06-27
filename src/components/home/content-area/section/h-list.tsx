@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text } from 'react-native';
 import { useScale } from '@/src/hooks/useScale';
-import FocusableBox from '@/src/components/focusable-box';
-import { generateData, getItemText } from '@/src/lib/utils';
+import { useTheme } from '@/src/hooks/useTheme';
+import { Show } from '@/src/lib/types';
+import Animated from 'react-native-reanimated';
+import { useFocusedShowStore } from '@/src/zustand/focused-show.store';
+import { router, useLocalSearchParams } from 'expo-router';
 
 
 interface Props {
@@ -14,7 +17,7 @@ interface Props {
     prefix?: string;
     slow?: boolean;
     onPress?: any;
-    data?: any;
+    data?: Show[];
     initialNumToRender?: number;
     maxToRenderPerBatch?: number;
     windowSize?: number;
@@ -28,33 +31,52 @@ const HList = React.forwardRef(({
     onItemFocused,
     onItemPressed,
     prefix = '',
-    slow,
+    data,
     ...props
 }: Props,
     forwardedRef: any,
 ) => {
-    const data = React.useMemo(() => generateData(itemCount), [itemCount]);
+
     const scale = useScale();
     const styles = useStyles();
+    const theme = useTheme();
 
-    const renderItem: any = ({ item, index }: { item: number, index: number }) => {
+    const setFocusedShow = useFocusedShowStore(s => s.setFocusedShow)
+
+    const renderItem: any = ({ item, index }: { item: Show, index: number }) => {
+        const onFocus = (e: any) => {
+            setFocusedShow(item);
+        }
+
+        const onPress = (e: any) => {
+            setFocusedShow(item);
+            router.push(`/show/${item.id}`);
+        };
+
         return (
-            <FocusableBox
-                id={item}
-                width={itemWidth ?? 500 * scale}
-                height={itemHeight ?? 120 * scale}
-                style={styles.mr5}
-                text={getItemText({ prefix, item })}
-                onFocus={(e, id) => { onItemFocused?.(id) }}
-                onPress={() => { onItemPressed?.(index) }}
-                slow={slow}
-            />
+            <Pressable
+                onFocus={onFocus}
+                onPress={onPress}
+                tvParallaxProperties={{
+                    enabled: true,
+                    magnification: 1.1,
+                    tiltAngle: 0
+                }}
+                style={state => [
+                    styles.show,
+                    { borderColor: state.focused ? theme.tint : "trasparent", borderWidth: 4 },
+                    state.pressed && { transform: [{ scale: 0.95 }] },
+                ]}>
+
+                <Animated.Image source={{ uri: `https://image.tmdb.org/t/p/w200${item.poster_path}` }} style={styles.thumbnail} />
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>{item.original_title}</Text>
+            </Pressable>
         );
     };
 
     return (
         <FlatList
-            keyExtractor={item => getItemText({ prefix, item })}
+            keyExtractor={item => item.id.toString()}
             ref={forwardedRef}
             data={data}
             renderItem={renderItem}
@@ -74,9 +96,29 @@ const useStyles = () => {
     return StyleSheet.create({
         hListContainer: {
             paddingHorizontal: 16 * scale,
+            gap: 16 * scale,
         },
         mr5: {
             marginRight: 5 * scale,
         },
+        show: {
+            width: 200,
+            borderRadius: 10,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 4 * scale,
+        },
+        thumbnail: {
+            width: '100%',
+            height: 300,
+            borderRadius: 10,
+            objectFit: 'cover',
+        },
+        title: {
+            fontSize: 18 * scale,
+            fontFamily: 'IBMPlexSansArabic-Regular',
+            color: '#fff',
+        }
     });
 }

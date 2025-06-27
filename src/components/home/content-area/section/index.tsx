@@ -2,12 +2,19 @@ import { useScale } from "@/src/hooks/useScale";
 import * as React from "react";
 import { FlatList, Text, TVFocusGuideView, StyleSheet } from "react-native";
 import HList from "./h-list";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/src/lib/api";
 
 
 function Section() {
     const scale = useScale();
     const styles = useStyles();
     const listRef = React.useRef<React.ElementRef<typeof FlatList> | null>(null);
+
+    const { data } = useQuery({
+        queryKey: ["section"],
+        queryFn: () => api.gets.getMovies(),
+    });
 
     const onItemPressed = () => {
         listRef.current?.scrollToIndex({ index: 0, animated: false });
@@ -20,9 +27,14 @@ function Section() {
                     styles.rowTitle,
                     { marginLeft: 16 * scale, marginVertical: 16 * scale },
                 ]}>
-                Restore Focus on Scroll To Top Test
+                Restore Focus on Scroll To Top Test {data?.length || 0}
             </Text>
-            <HList ref={listRef} itemCount={10} onItemPressed={onItemPressed} />
+            <HList
+                ref={listRef}
+                data={data}
+                itemCount={10}
+                onItemPressed={onItemPressed}
+            />
         </TVFocusGuideView>
     );
 };
@@ -39,6 +51,7 @@ const useStyles = () => {
         rowTitle: {
             fontSize: 24 * scale,
             fontFamily: "IBMPlexSansArabic-Bold",
+            color: '#fff'
         },
     })
 };

@@ -1,35 +1,39 @@
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useScale } from '@/src/hooks/useScale';
 import { useFocusedShowStore } from '@/src/zustand/focused-show.store';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
+import { LinearGradient } from 'expo-linear-gradient';
+
+
 
 export default function ShowPreview() {
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
     const styles = useStyles();
 
-    const source = { uri: focusedShow?.Poster ?? "" };
+    const source = focusedShow?.backdrop_path ? { uri: `https://image.tmdb.org/t/p/w1280${focusedShow?.backdrop_path}` } : require('@/assets/images/partial-react-logo.png');
 
     return (
         <ImageBackground
             style={styles.header}
             source={source}
-            blurRadius={18}
+            resizeMode='cover'
+            imageStyle={styles.background_image}
         >
-            <View style={styles.backdrop}>
-                <Animated.Image
-                    source={source}
-                    style={styles.poster}
-                />
+            <LinearGradient
+                style={styles.overlay}
+                colors={['rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 0.5)', 'rgba(237, 69, 50, 0)', 'rgba(237, 69, 50, 0)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+            >
+
                 <View
                     focusable={false}
                     style={styles.details}
                 >
-                    <ThemedText style={styles.title}>{focusedShow?.Title}</ThemedText>
-                    <ThemedText style={styles.plot}>{focusedShow?.Plot}</ThemedText>
+                    <Text style={styles.title}>{focusedShow?.original_title}</Text>
+                    <Text style={styles.plot}>{focusedShow?.release_date}</Text>
                 </View>
-            </View>
+            </LinearGradient>
         </ImageBackground>
     );
 }
@@ -38,12 +42,21 @@ const useStyles = function () {
     const scale = useScale();
     return StyleSheet.create({
         header: {
-            height: 175 * scale,
+            height: 500 * scale,
+            width: '100%',
             overflow: 'hidden',
-            backgroundColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 1)',
             flexDirection: 'row',
+
+            borderRadius: 10 * scale,
+            marginHorizontal: 10 * scale,
+            marginTop: 10 * scale,
         },
-        backdrop: {
+        background_image: {
+            resizeMode: 'cover',
+            alignSelf: 'flex-start',
+        },
+        overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             flex: 1,
             flexGrow: 1,
@@ -57,13 +70,14 @@ const useStyles = function () {
         },
         details: {
             flexDirection: 'column',
-            padding: 4 * scale,
-            width: '40%'
+            padding: 10 * scale,
+            width: '100%'
         },
         title: {
-            fontSize: 16 * scale,
+            fontSize: 64 * scale,
             color: '#fff',
-            fontFamily: 'IBMPlexSansArabic-Bold'
+            fontFamily: 'IBMPlexSansArabic-Bold',
+            bottom: 4 * scale,
         },
         plot: {
             fontSize: 14 * scale,

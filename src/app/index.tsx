@@ -10,9 +10,9 @@ export default function HomeScreen() {
     const theme = useTheme();
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.BackgroundColor }]}>
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
             <SideMenu ref={sideMenuRef} />
-            <ContentArea sideMenuRef={sideMenuRef} />
+            <ContentArea />
         </View>
     );
 };

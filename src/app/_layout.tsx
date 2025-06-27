@@ -1,4 +1,3 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,7 +7,6 @@ import {
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
 
-import { useColorScheme } from '@/src/hooks/useColorScheme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import client from '@/src/lib/react-query';
 
@@ -22,9 +20,7 @@ configureReanimatedLogger({
 });
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  // const value = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
-  const value = DarkTheme
+
   const [loaded, error] = useFonts({
     ['SpaceMono']: require('../../assets/fonts/SpaceMono-Regular.ttf'),
     ['IBMPlexSansArabic-Regular']: require('../../assets/fonts/IBMPlexSansArabic-Regular.ttf'),
@@ -47,12 +43,7 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={client}>
-      <ThemeProvider value={value}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen options={{ headerShown: false }}  />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }} />
     </QueryClientProvider>
   );
 }

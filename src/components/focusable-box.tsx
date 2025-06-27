@@ -39,16 +39,16 @@ const FocusableBox = React.forwardRef((props: Props, forwardRef: any) => {
                 {
                     width,
                     height,
-                    backgroundColor: theme.TertiarySystemFillColor,
+                    backgroundColor: theme.card,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 4,
                 },
-                state.focused && { borderColor: theme.BorderColor, borderWidth: 4 },
+                state.focused && { borderColor: theme.tint, borderWidth: 4 },
                 style,
             ]}>
             {text !== undefined ? (
-                <Text style={{ fontSize: 24 * scale }}>{text}</Text>
+                <Text style={{ fontSize: 24 * scale, color: theme.text }}>{text}</Text>
             ) : null}
         </Pressable>
     );

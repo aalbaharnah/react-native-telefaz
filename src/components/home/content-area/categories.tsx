@@ -58,6 +58,7 @@ const useStyles = () => {
         rowTitle: {
             fontSize: 24 * scale,
             fontFamily: 'IBMPlexSansArabic-Bold',
+            color: '#fff'
         },
         rowTop: {
             flexDirection: 'row',

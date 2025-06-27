@@ -32,7 +32,6 @@ const useStyles = () => {
             paddingBottom: 16 * scale,
             width: 220 * scale,
             height: '100%',
-
         },
     });
 }

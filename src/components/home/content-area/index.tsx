@@ -1,19 +1,13 @@
-import { useScale } from "@/src/hooks/useScale";
 import * as React from "react";
-import { ScrollView, Text, TVFocusGuideView, StyleSheet, FlatList } from "react-native";
-import Section from "./section";
-import FocusableBox from "../../focusable-box";
-import Categories from "./categories";
+import { ScrollView, Text, TVFocusGuideView, StyleSheet } from "react-native";
+import { useScale } from "@/src/hooks/useScale";
 import { generateData } from "@/src/lib/utils";
+import Section from "./section";
+import Categories from "./categories";
 import ShowPreview from "../show-preview";
+import FocusableBox from "../../focusable-box";
 
-interface ContentAreaProps {
-    sideMenuRef: {
-        current: any
-    }
-};
-
-const ContentArea = React.forwardRef(({ sideMenuRef }: ContentAreaProps, forwardedRef: any) => {
+const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
     return (
         <TVFocusGuideView ref={forwardedRef} autoFocus style={{ flex: 1 }}>
@@ -22,7 +16,7 @@ const ContentArea = React.forwardRef(({ sideMenuRef }: ContentAreaProps, forward
             </Text>
             <ShowPreview />
             <ScrollView>
-                <Categories title="Category Example 1" />
+                {/* <Categories title="Category Example 1" /> */}
                 <Section />
                 <Section />
 
@@ -56,6 +50,7 @@ const useStyles = () => {
         pageTitle: {
             fontSize: 48 * scale, margin: 10 * scale,
             fontFamily: "IBMPlexSansArabic-Bold",
+            color: '#fff'
         },
         focusToSideMenuBtn: {
             height: 100 * scale,
@@ -68,7 +63,8 @@ const useStyles = () => {
         },
         colTitle: {
             margin: 10 * scale,
-            fontSize: 24 * scale
+            fontSize: 24 * scale,
+            color: '#fff',
         },
         cols: {
             flexDirection: 'row',

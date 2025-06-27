@@ -1,4 +1,4 @@
 export default {
-    api: `https://www.omdbapi.com`,
-    omdbApiKey: process.env.OMDb_API_KEY ?? '',
+    api: `https://api.themoviedb.org/3/`,
+    tmdbApiKey: process.env.TMDB_API_KEY ?? '0fd92481ddb5910a66ea82005307008d',
 }

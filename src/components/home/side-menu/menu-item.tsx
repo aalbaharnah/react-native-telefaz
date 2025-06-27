@@ -21,17 +21,17 @@ const MenuItem = React.forwardRef(({ text, icon, onPress }: Props, forwardRef: a
     const scale = useScale();
     const styles = useStyles();
 
-    const color = useSharedValue('#000000')
+    const color = useSharedValue('#ffffff')
 
     const onFocus = () => {
-        color.value = withTiming(theme.BorderColor, {
+        color.value = withTiming(theme.border, {
             duration: 300,
             easing: Easing.inOut(Easing.ease)
         });
     }
 
     const onBlur = () => {
-        color.value = withTiming('#000000', {
+        color.value = withTiming('#ffffff', {
             duration: 100,
             easing: Easing.inOut(Easing.ease)
         })
@@ -51,7 +51,7 @@ const MenuItem = React.forwardRef(({ text, icon, onPress }: Props, forwardRef: a
             onPress={onPress}
             style={state => [
                 styles.item,
-                state.focused && { borderColor: theme.BorderColor, borderWidth: 4 },
+                state.focused && { borderColor: theme.border, borderWidth: 4 },
             ]}>
             <AnimatedIcon name={icon as "home"} size={24 * scale} style={animatedStyle} />
             {text !== undefined ? (
