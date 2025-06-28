@@ -1,4 +1,5 @@
-
+import { PixelRatio } from "react-native";
+import { useScale } from "../hooks/useScale";
 /**
  * Checks if a string is a valid JSON string.
  * @param str string to check if it is a valid JSON string
@@ -33,6 +34,7 @@ export function generateData(length: number = 10, randomize: boolean = false) {
 };
 
 
-export function getItemText({ item, prefix }: { item: number, prefix: string }) {
-    return prefix ? `${prefix}-${item}` : `${item}`;
-};
+export function scaled(value: number) {
+    const scale = useScale();
+    return value * scale;
+}

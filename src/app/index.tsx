@@ -1,13 +1,26 @@
 
 import * as React from 'react';
-import { View, StyleSheet, Text, Pressable } from "react-native";
-import { useTheme } from '../hooks/useTheme';
-import { useScale } from '../hooks/useScale';
-import EaseInView from '../components/ease-in-view';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { View, StyleSheet, Text, Modal, Alert } from "react-native";
 import { router } from 'expo-router';
-import { useProfileStore } from '../zustand/profile.store';
-import { Profile } from '../lib/types';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '@/src/hooks/useTheme';
+import { useScale } from '@/src/hooks/useScale';
+import ProfileCircle from '@/src/components/choose-profile/profile-circle';
+import { useProfileStore } from '@/src/zustand/profile.store';
+import { Profile } from '@/src/lib/types';
+import FocusableBox from '../components/focusable-box';
+import { useAlert } from '../providers/alert.provider';
+
+const dummyProfiles: Profile[] = [{
+    id: 1,
+    name: "Ali",
+    user_id: 1,
+    profile_picture: '',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    favorites: [],
+}]
+
 
 export default function HomeScreen() {
     const theme = useTheme();
@@ -15,16 +28,7 @@ export default function HomeScreen() {
     const scale = useScale();
 
     const setProfile = useProfileStore(s => s.setProfile)
-
-    const dummyProfiles: Profile[] = [{
-        id: 1,
-        name: "Ali",
-        user_id: 1,
-        profile_picture: '',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        favorites: [],
-    }]
+    const { setAlert } = useAlert();
 
     const onChooseProfile = (profile: Profile) => {
         setProfile(profile);
@@ -36,34 +40,25 @@ export default function HomeScreen() {
             <Text style={styles.title}>Who is watching?</Text>
             <View style={styles.row}>
                 {dummyProfiles.map((profile, i) => (
-                    <EaseInView
+                    <ProfileCircle
                         key={profile.id}
-                        delay={100 + (i * 0.025)}
-                        style={{ alignItems: 'center', justifyContent: 'center', gap: 10 * scale }}>
-                        <Pressable
-                            onPress={() => onChooseProfile(profile)}
-                            style={state => [
-                                styles.profile,
-                                state.focused && { borderColor: theme.tint, borderWidth: 4 },
-                                state.pressed && { transform: [{ scale: 0.95 }] },
-                            ]}>
-                        </Pressable>
-                        <Text style={{ color: theme.text, fontSize: scale * 24 }}>{profile.name}</Text>
-                    </EaseInView>
+                        delay={100 + (i * 50)}
+                        name={profile.name}
+                        onPress={() => onChooseProfile(profile)}
+                    />
+
                 ))}
-                <EaseInView delay={200} style={{ alignItems: 'center', justifyContent: 'center', gap: 10 * scale }}>
-                    <Pressable
-                        onPress={() => { }}
-                        style={state => [
-                            styles.profile,
-                            state.focused && { borderColor: theme.tint, borderWidth: 4 },
-                            state.pressed && { transform: [{ scale: 0.95 }] },
-                        ]}>
-                        <Ionicons name="add" size={scale * 50} color={theme.text} />
-                    </Pressable>
-                    <Text style={{ color: theme.text, fontSize: scale * 18 }}>Add Profile</Text>
-                </EaseInView>
+
+                <ProfileCircle
+                    name='Add Profile'
+                    delay={100 + (dummyProfiles.length * 50)}
+                    onPress={() => Alert.alert("Add Profile", "This feature is not implemented yet.")}
+                >
+                    <Ionicons name="add" size={scale * 50} color={theme.text} />
+                </ProfileCircle>
             </View>
+
+
         </View >
     );
 };
@@ -88,14 +83,6 @@ const useStyles = () => {
             alignItems: 'center',
             justifyContent: 'center',
             gap: 20 * scale,
-        },
-        profile: {
-            width: 200 * scale,
-            height: 200 * scale,
-            backgroundColor: '#333333',
-            borderRadius: 100 * scale,
-            alignItems: 'center',
-            justifyContent: 'center',
         }
     });
 }

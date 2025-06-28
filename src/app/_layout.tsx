@@ -9,6 +9,7 @@ import {
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import client from '@/src/lib/react-query';
+import AlertProvider from '../providers/alert.provider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -43,7 +44,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={client}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <AlertProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </AlertProvider>
     </QueryClientProvider>
   );
 }

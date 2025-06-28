@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from "react-native-reanimated";
-import { useScale } from "../hooks/useScale";
+import { useScale } from "../../hooks/useScale";
 
 
 interface Props extends PropsWithChildren {
@@ -10,7 +10,7 @@ interface Props extends PropsWithChildren {
     delay?: number;
 }
 
-export default function EaseInView({ children, style, duration = 300, delay = 0 }: Props) {
+export default function BounceInView({ children, style, duration = 300, delay = 0 }: Props) {
     const scale = useScale();
     const state = useSharedValue(scale * 24);
     const opacity = useSharedValue(0);
