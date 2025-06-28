@@ -1,14 +1,21 @@
 
 import { View, StyleSheet, ActivityIndicator, Text, TVFocusGuideView, Button } from 'react-native';
 import { useVideoPlayer, VideoPlayerStatus, VideoView } from 'expo-video';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useEvent, useEventListener } from 'expo';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import FocusableBox from '@/src/components/focusable-box';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function App() {
+    const [destinationItem, setDestinationItem] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const st = useSharedValue(0);
+    const focusGuideRef = useRef<React.ElementRef<typeof TVFocusGuideView>>(null);
+    const destinationItemRef = useRef<any>(null);
     const [playerStatus, setPlayerStatus] = useState<VideoPlayerStatus>('idle');
+
+
     const video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; // Replace with your video URL
 
     const player = useVideoPlayer(video_url, (p) => {
@@ -18,6 +25,9 @@ export default function App() {
     });
 
 
+    useEffect(() => {
+        focusGuideRef.current?.setDestinations([destinationItemRef.current]);
+    }, []);
 
     const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
     useEventListener(player, 'statusChange', ({ status, error }) => {
@@ -45,9 +55,6 @@ export default function App() {
 
     const tu = useEvent(player, 'timeUpdate');
 
-
-    console.log('timeupdate: ', tu?.currentTime, player.duration);
-
     const duration = player.duration;
     const currentTime = tu?.currentTime || 0;
     let progress = 0
@@ -64,30 +71,82 @@ export default function App() {
         }
     }, []);
 
+    const onForward = () => {
+        if (player.currentTime + 10 < player.duration) {
+            player.currentTime += 10;
+        } else {
+            player.currentTime = player.duration;
+        }
+    }
+
+    const onRewind = () => {
+        if (player.currentTime - 10 > 0) {
+            player.currentTime -= 10;
+        } else {
+            player.currentTime = 0;
+        }
+    }
+
+    const onPlayPause = () => {
+        if (isPlaying) {
+            player.pause();
+        } else {
+            player.play();
+        }
+    }
+
 
     return (
+
         <View style={styles.container}>
-            <VideoView
-                player={player}
-                style={styles.video}
-                allowsFullscreen
-                allowsPictureInPicture
-                nativeControls={false}
-            />
-            <View style={styles.controlsContainer}>
-
-            </View>
-
-
+            <TVFocusGuideView
+                autoFocus
+                focusable={false}
+                importantForAccessibility='no-hide-descendants'
+            >
+                <VideoView
+                    player={player}
+                    style={styles.video}
+                    allowsFullscreen
+                    allowsPictureInPicture
+                    nativeControls={false}
+                />
+            </TVFocusGuideView>
             {loading ? (
                 <View style={styles.loading}>
                     <ActivityIndicator size="large" color="#fff" />
                 </View>
             ) : null}
-            <View style={{ height: 10, width: '100%', backgroundColor: '#efefef', borderRadius: 5, overflow: 'hidden', position: 'absolute', bottom: 30 }}>
+
+            <View style={{ height: 10, width: '100%', backgroundColor: '#efefef', borderRadius: 5, overflow: 'hidden', position: 'absolute', bottom: 100, }}>
                 <Animated.View style={animatedProgress} />
             </View>
+
+            <TVFocusGuideView
+                autoFocus
+                destinations={[destinationItemRef.current]}
+                importantForAccessibility={'no-hide-descendants'}
+                style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, position: 'absolute', bottom: 50, width: '100%' }}
+            >
+
+                <FocusableBox
+                    text='Rewind'
+                    onPress={onRewind}
+                />
+
+                <FocusableBox
+                    text={isPlaying ? 'Pause' : 'Play'}
+                    ref={destinationItemRef}
+                    onPress={onPlayPause}
+                />
+                <FocusableBox
+                    text='Forward'
+                    onPress={onForward}
+                />
+
+            </TVFocusGuideView>
         </View>
+
     );
 }
 
