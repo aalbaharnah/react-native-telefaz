@@ -50,7 +50,7 @@ const HList = React.forwardRef(({
 
         const onPress = (e: any) => {
             setFocusedShow(item);
-            router.push(`/show/${item.id}`);
+            router.push(`/home/${item.id}`);
         };
 
         return (

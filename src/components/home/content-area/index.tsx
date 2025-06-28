@@ -6,19 +6,49 @@ import Section from "./section";
 import Categories from "./categories";
 import ShowPreview from "../show-preview";
 import FocusableBox from "../../focusable-box";
+import { useQueries } from "@tanstack/react-query";
+import api from "@/src/lib/api";
 
 const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
+    const [movies, series, documentries] = useQueries({
+        queries: [
+            {
+                queryKey: ["movies"],
+                queryFn: () => api.gets.getMovies(),
+            },
+            {
+                queryKey: ["series"],
+                queryFn: () => api.gets.getTVShows(),
+            },
+            {
+                queryKey: ["documentaries"],
+                queryFn: () => api.gets.getDocumentaryShows(),
+            }
+        ],
+    });
+
+
+
     return (
         <TVFocusGuideView ref={forwardedRef} autoFocus style={{ flex: 1 }}>
             <Text style={styles.pageTitle}>
-                أهلا علي
+                {"Hi Ali, welcome back!"}
             </Text>
             <ShowPreview />
             <ScrollView>
-                {/* <Categories title="Category Example 1" /> */}
-                <Section />
-                <Section />
+
+                <Section
+                    data={movies?.data}
+                    loading={movies.isLoading}
+                    title="Movies"
+                />
+
+                <Section
+                    data={series.data}
+                    loading={series.isLoading}
+                    title="Series"
+                />
 
                 <TVFocusGuideView style={styles.cols}>
                     <Col title="Genres" />

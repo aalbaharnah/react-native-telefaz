@@ -4,17 +4,17 @@ import { FlatList, Text, TVFocusGuideView, StyleSheet } from "react-native";
 import HList from "./h-list";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/src/lib/api";
+import { Show } from "@/src/lib/data";
 
+interface Props {
+    data?: Show[];
+    loading?: boolean;
+}
 
-function Section() {
+function Section({ data, loading }: Props) {
     const scale = useScale();
     const styles = useStyles();
     const listRef = React.useRef<React.ElementRef<typeof FlatList> | null>(null);
-
-    const { data } = useQuery({
-        queryKey: ["section"],
-        queryFn: () => api.gets.getMovies(),
-    });
 
     const onItemPressed = () => {
         listRef.current?.scrollToIndex({ index: 0, animated: false });

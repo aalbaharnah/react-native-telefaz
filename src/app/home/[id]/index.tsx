@@ -28,7 +28,7 @@ export default function ShowScreen() {
                 <View style={styles.view}>
                     <FocusableBox style={styles.sideMenuItem} onFocus={() => { }}
                         text="Play"
-                        onPress={() => router.push(`/show/${focusedShow?.id}/player`)}
+                        onPress={() => router.push(`/home/${focusedShow?.id}/player`)}
                     />
                     <FocusableBox style={styles.sideMenuItem} onFocus={() => { }} />
                 </View>

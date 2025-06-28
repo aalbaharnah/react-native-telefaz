@@ -10,7 +10,6 @@ interface Props {
     width?: number;
     height?: number;
     text?: string;
-    slow?: boolean;
     onFocus?: (e: FocusEvent, id?: number) => void;
     onPress?: any;
     style?: any;
@@ -20,12 +19,7 @@ interface Props {
 const FocusableBox = React.forwardRef((props: Props, forwardRef: any) => {
     const theme = useTheme();
     const scale = useScale();
-    const { id, width, height, text, slow, style } = props;
-
-    if (slow) {
-        const now = performance.now();
-        while (performance.now() - now < 200) { }
-    }
+    const { id, width, height, text, style } = props;
 
     const onFocus = (e: any) => props?.onFocus?.(e, id);
     const onPress = (e: any) => props?.onPress?.(e, id);
