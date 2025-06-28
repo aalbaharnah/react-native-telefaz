@@ -17,7 +17,7 @@ interface Props {
     prefix?: string;
     slow?: boolean;
     onPress?: any;
-    data?: Show[];
+    data?: Show[] | any[];
     initialNumToRender?: number;
     maxToRenderPerBatch?: number;
     windowSize?: number;
@@ -57,19 +57,14 @@ const HList = React.forwardRef(({
             <Pressable
                 onFocus={onFocus}
                 onPress={onPress}
-                // tvParallaxProperties={{
-                //     enabled: true,
-                //     magnification: 1.1,
-                //     tiltAngle: 0
-                // }}
                 style={state => [
                     styles.show,
-                    { borderColor: state.focused ? theme.tint : "trasparent", borderWidth: 4 },
+                    { borderColor: state.focused ? theme.tint : "#000000", borderWidth: 4 * scale },
                     state.pressed && { transform: [{ scale: 0.95 }] },
                 ]}>
 
                 <Animated.Image source={{ uri: `https://image.tmdb.org/t/p/w200${item.poster_path}` }} style={styles.thumbnail} />
-                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>{item.original_title}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>{item.original_title ?? item.original_name ?? ""}</Text>
             </Pressable>
         );
     };
@@ -102,7 +97,7 @@ const useStyles = () => {
             marginRight: 5 * scale,
         },
         show: {
-            width: 200,
+            width: 200 * scale,
             borderRadius: 10,
             flexDirection: 'column',
             alignItems: 'center',
@@ -111,7 +106,7 @@ const useStyles = () => {
         },
         thumbnail: {
             width: '100%',
-            height: 300,
+            height: 300 * scale,
             borderRadius: 10,
             objectFit: 'cover',
         },

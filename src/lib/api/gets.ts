@@ -45,9 +45,8 @@ async function GET<Result = any>(url: string, token?: string | null) {
         return response.data;
     } catch (error) {
         throw new Error(
-            error?.response?.data?.message ||
-            error?.response?.data ||
-            error?.message ||
+            //@ts-ignore
+            error?.response?.data?.message || error?.response?.data || error?.message ||
             'Something went wrong',
         );
     }

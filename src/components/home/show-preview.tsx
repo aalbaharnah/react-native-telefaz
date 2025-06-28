@@ -30,8 +30,8 @@ export default function ShowPreview() {
                     focusable={false}
                     style={styles.details}
                 >
-                    <Text style={styles.title}>{focusedShow?.original_title}</Text>
-                    <Text style={styles.plot}>{focusedShow?.release_date}</Text>
+                    <Text style={styles.title}>{focusedShow?.original_title ?? focusedShow?.original_name ?? ""}</Text>
+                    <Text style={styles.plot} numberOfLines={6}>{focusedShow?.overview}</Text>
                 </View>
             </LinearGradient>
         </ImageBackground>
@@ -80,9 +80,10 @@ const useStyles = function () {
             bottom: 4 * scale,
         },
         plot: {
-            fontSize: 14 * scale,
+            fontSize: 24 * scale,
             color: '#ccc',
             marginTop: 4 * scale,
+            width: '40%'
         }
     });
 };

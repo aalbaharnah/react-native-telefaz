@@ -7,11 +7,12 @@ import api from "@/src/lib/api";
 import { Show } from "@/src/lib/data";
 
 interface Props {
-    data?: Show[];
+    data?: Show[] | any[];
     loading?: boolean;
+    title: string;
 }
 
-function Section({ data, loading }: Props) {
+function Section({ data, title, loading }: Props) {
     const scale = useScale();
     const styles = useStyles();
     const listRef = React.useRef<React.ElementRef<typeof FlatList> | null>(null);
@@ -27,7 +28,7 @@ function Section({ data, loading }: Props) {
                     styles.rowTitle,
                     { marginLeft: 16 * scale, marginVertical: 16 * scale },
                 ]}>
-                Restore Focus on Scroll To Top Test {data?.length || 0}
+                Top {data?.length || 0} {title}
             </Text>
             <HList
                 ref={listRef}

@@ -38,7 +38,7 @@ const FocusableBox = React.forwardRef((props: Props, forwardRef: any) => {
                     justifyContent: 'center',
                     borderRadius: 4,
                 },
-                state.focused && { borderColor: theme.tint, borderWidth: 4 },
+                state.focused && { borderColor: theme.tint, borderWidth: 4 * scale },
                 style,
             ]}>
             {text !== undefined ? (

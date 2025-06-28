@@ -1,10 +1,18 @@
-import { useState, useRef } from 'react';
-import { View, StyleSheet, Button, Pressable, Text, TVFocusGuideView } from 'react-native';
+import { useState, useRef, useCallback } from 'react';
+import { View, StyleSheet, ActivityIndicator, Text, TVFocusGuideView } from 'react-native';
 import { Video, ResizeMode, ExponentVideoComponent, AVPlaybackStatus } from 'expo-av';
 
 export default function App() {
     const video = useRef<Video>(null);
     const [status, setStatus] = useState<AVPlaybackStatus | {}>({});
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const onLoad = useCallback(() => {
+        if (video.current) {
+            video.current.playAsync();
+        }
+        setLoading(false);
+    }, [video])
 
     return (
         <TVFocusGuideView style={styles.container}>
@@ -15,26 +23,14 @@ export default function App() {
                 useNativeControls
                 resizeMode={ResizeMode.CONTAIN}
                 isLooping
+                onLoad={onLoad}
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
-            {/* <TVFocusGuideView style={styles.buttons}>
-                <Pressable
-                    style={(state) => [
-                        {
-                            backgroundColor: state.focused ? '#ccc' : '#f1f1f1',
-                            padding: 10,
-                            borderRadius: 5,
-                            margin: 5,
-                        },
-                        state.pressed && { transform: [{ scale: 0.95 }] }
-                    ]}
-                    onPress={() =>
-                        status?.isPlaying ? video?.current?.pauseAsync() : video?.current?.playAsync()
-                    }
-                >
-                    <Text>{"Play"}</Text>
-                </Pressable>
-            </TVFocusGuideView> */}
+            {loading && (
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#fff" />
+                </View>
+            )}
         </TVFocusGuideView>
     );
 }
@@ -51,6 +47,12 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
 
+    },
+    loading: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     buttons: {
         flexDirection: 'row',
