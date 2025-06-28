@@ -11,12 +11,11 @@ export default function Favorites() {
         <View style={styles.root}>
             <Text style={styles.text}>{`Favorites (${favorites.length})`}</Text>
             <TVFocusGuideView style={styles.container}>
-
                 {favorites.length === 0 ? (
                     <Text style={styles.text}>No favorites yet!</Text>
                 ) : (
                     favorites.map((favorite, index) => (
-                        <ShowItem item={favorite} />
+                        <ShowItem key={index.toString()} item={favorite} />
                     ))
                 )}
             </TVFocusGuideView>
