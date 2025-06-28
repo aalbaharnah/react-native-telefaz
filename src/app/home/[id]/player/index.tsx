@@ -1,9 +1,10 @@
 
-import { View, StyleSheet, ActivityIndicator, TVFocusGuideView, Platform } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, TVFocusGuideView, Platform, Alert } from 'react-native';
 import { useVideoPlayer, VideoPlayerStatus, VideoView } from 'expo-video';
 import { useRef, useState } from 'react';
 import { useEventListener } from 'expo';
 import ControllerContainer from '@/src/components/player/controller-container';
+import { router } from 'expo-router';
 
 export default function Player() {
 
@@ -14,7 +15,7 @@ export default function Player() {
 
 
     // Replace with your video URL
-    const video_url = Platform.isTVOS ? 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8' : 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd'
+    const video_url = Platform.isTVOS ? 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' : 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd'
     // const video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; 
     const player = useVideoPlayer(video_url, (p) => {
         p.timeUpdateEventInterval = 0.50; // Update every second
@@ -33,7 +34,8 @@ export default function Player() {
                 setLoading(true);
                 break;
             case "error":
-                setLoading(true);
+                Alert.alert("Error", `An error occurred: ${error?.message || 'Unknown error'}`);
+                router.back();
                 break;
             case "idle":
                 // Handle idle state
