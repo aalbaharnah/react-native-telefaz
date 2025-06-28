@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FlatList, StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
 import { useScale } from '@/src/hooks/useScale';
 import FocusableBox from '@/src/components/focusable-box';
+import { Show } from '@/src/lib/types';
 
 interface Props {
     title: string;
@@ -13,7 +14,7 @@ export default function Categories({ title, focusable }: Props) {
     const styles = useStyles();
     const categoryData = ['movies', 'TV shows', 'documentaries'];
 
-    const renderItem: any = ({ item, index }: { item: Show, index: number }) => {
+    const renderItem: any = ({ item, index }: { item: string, index: number }) => {
         return (
             <FocusableBox
                 onPress={() => { }}
