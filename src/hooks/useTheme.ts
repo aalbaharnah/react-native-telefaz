@@ -1,7 +1,7 @@
 import { createContext, use } from 'react';
 import { Appearance, ColorValue } from 'react-native';
 
-export type RNTesterTheme = {
+export type RNTheme = {
     LabelColor: ColorValue,
     SecondaryLabelColor: ColorValue,
     TertiaryLabelColor: ColorValue,
@@ -43,7 +43,7 @@ export type RNTesterTheme = {
 };
 
 const tintColorLight = 'rgb(237, 69, 50)';
-const tintColorDark = 'rgb(237, 69, 50)';
+const previewColors: ColorValue[] = ['rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 0.5)', 'rgba(237, 69, 50, 0)', 'rgba(237, 69, 50, 0)'];
 
 export const themes = {
     light: {
@@ -55,7 +55,8 @@ export const themes = {
         tabIconDefault: '#687076',
         tabIconSelected: tintColorLight,
         link: '#0a7ea4',
-        border: tintColorLight
+        border: tintColorLight,
+        previewColors: previewColors,
     },
     dark: {
         text: '#ffffff',
@@ -66,7 +67,8 @@ export const themes = {
         tabIconDefault: '#687076',
         tabIconSelected: tintColorLight,
         link: '#0a7ea4',
-        border: tintColorLight
+        border: tintColorLight,
+        previewColors: previewColors,
     },
 };
 

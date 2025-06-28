@@ -1,16 +1,17 @@
 import { ImageBackground, StyleSheet, View, Text } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { useScale } from '@/src/hooks/useScale';
-import { useFocusedShowStore } from '@/src/zustand/focused-show.store';
 import { LinearGradient } from 'expo-linear-gradient';
-
-
+import { useTheme } from '@/src/hooks/useTheme';
+import { useFocusedShowStore } from '@/src/zustand/focused-show.store';
 
 export default function ShowPreview() {
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
     const styles = useStyles();
+    const theme = useTheme();
 
-    const source = focusedShow?.backdrop_path ? { uri: `https://image.tmdb.org/t/p/w1280${focusedShow?.backdrop_path}` } : require('@/assets/images/partial-react-logo.png');
+    const source = focusedShow?.backdrop_path ?
+        { uri: `https://image.tmdb.org/t/p/w1280${focusedShow?.backdrop_path}` }
+        : require('@/assets/images/partial-react-logo.png');
 
     return (
         <ImageBackground
@@ -21,15 +22,11 @@ export default function ShowPreview() {
         >
             <LinearGradient
                 style={styles.overlay}
-                colors={['rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 1)', 'rgba(237, 69, 50, 0.5)', 'rgba(237, 69, 50, 0)', 'rgba(237, 69, 50, 0)']}
+                colors={theme.previewColors as any}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-
-                <View
-                    focusable={false}
-                    style={styles.details}
-                >
+                <View focusable={false} style={styles.details}>
                     <Text style={styles.title}>{focusedShow?.original_title ?? focusedShow?.original_name ?? ""}</Text>
                     <Text style={styles.plot} numberOfLines={6}>{focusedShow?.overview}</Text>
                 </View>

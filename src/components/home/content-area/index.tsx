@@ -1,18 +1,20 @@
 import * as React from "react";
 import { ScrollView, Text, TVFocusGuideView, StyleSheet } from "react-native";
+import { useQueries } from "@tanstack/react-query";
+import api from "@/src/lib/api";
 import { useScale } from "@/src/hooks/useScale";
 import { generateData } from "@/src/lib/utils";
 import Section from "./section";
-import Categories from "./categories";
-import ShowPreview from "../show-preview";
-import FocusableBox from "../../focusable-box";
-import { useQueries } from "@tanstack/react-query";
-import api from "@/src/lib/api";
+import ShowPreview from "./show-preview";
+import FocusableBox from "@/src/components/focusable-box";
 import { useFavoritesStore } from "@/src/zustand/favorites.store";
+import { useProfileStore } from "@/src/zustand/profile.store";
+import Categories from "./categories";
+import { Show } from "@/src/lib/types";
 
 const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
-
+    const profile = useProfileStore(p => p.profile);
     const favorites = useFavoritesStore(s => s.favorites);
 
     const [movies, series, documentries] = useQueries({
@@ -37,7 +39,7 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     return (
         <TVFocusGuideView ref={forwardedRef} autoFocus style={{ flex: 1 }}>
             <Text style={styles.pageTitle}>
-                {"Hi Ali, welcome back!"}
+                {`Hi ${profile?.name}, welcome back!`}
             </Text>
             <ShowPreview />
             <ScrollView>
@@ -47,7 +49,6 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
                     loading={movies.isLoading}
                     title="Movies"
                 />
-
                 <Section
                     data={series.data}
                     loading={series.isLoading}
@@ -60,8 +61,9 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
                         title="Favorites"
                     />
                 )}
+                <Categories title="genres" />
                 <TVFocusGuideView style={styles.cols}>
-                    <Col title="Genres" />
+                    <Col title="" data={documentries.data} />
                 </TVFocusGuideView>
 
             </ScrollView>
@@ -69,14 +71,14 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     );
 });
 
-const Col = ({ title }: { title: string }) => {
+const Col = ({ title, data }: { title: string, data?: Show[] }) => {
     const styles = useStyles();
-    const data = React.useMemo(() => generateData(10), []);
+
     return (
         <TVFocusGuideView autoFocus style={styles.col}>
             <Text style={styles.colTitle}>{title}</Text>
-            {data.map((item, index) => (
-                <FocusableBox key={index.toString()} text={index.toString()} style={styles.colItem} />
+            {data?.map((item, index) => (
+                <FocusableBox key={index.toString()} text={item.original_name} style={styles.colItem} />
             ))}
         </TVFocusGuideView>
     );

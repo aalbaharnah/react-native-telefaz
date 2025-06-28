@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Pressable, Text, StyleSheet } from "react-native";
-import { useScale } from '@/src/hooks/useScale';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useSharedValue } from 'react-native-reanimated';
+import { useScale } from '@/src/hooks/useScale';
 import { useTheme } from '@/src/hooks/useTheme';
 
 interface Props {
@@ -17,9 +16,6 @@ const ControlButton = React.forwardRef(({ icon, onFocus, onPress }: Props, forwa
     const theme = useTheme();
     const styles = useStyles();
 
-    const state = useSharedValue(0)
-
-
     const onButtonFocus = () => {
         onFocus?.();
     };
@@ -27,7 +23,7 @@ const ControlButton = React.forwardRef(({ icon, onFocus, onPress }: Props, forwa
     return (
         <Pressable
             ref={forwardRef}
-            onFocus={onFocus}
+            onFocus={onButtonFocus}
             onPress={onPress}
             style={state => [
                 styles.button,

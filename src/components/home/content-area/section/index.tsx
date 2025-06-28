@@ -2,9 +2,7 @@ import { useScale } from "@/src/hooks/useScale";
 import * as React from "react";
 import { FlatList, Text, TVFocusGuideView, StyleSheet } from "react-native";
 import HList from "./h-list";
-import { useQuery } from "@tanstack/react-query";
-import api from "@/src/lib/api";
-import { Show } from "@/src/lib/data";
+import { Show } from "@/src/lib/types";
 
 interface Props {
     data?: Show[] | any[];

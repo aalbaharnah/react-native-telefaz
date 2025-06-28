@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
 import { useTheme } from '../hooks/useTheme';
 import { useScale } from '../hooks/useScale';
-
-
 
 interface Props {
     id?: number;

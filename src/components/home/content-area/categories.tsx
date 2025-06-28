@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
 import { useScale } from '@/src/hooks/useScale';
-import HList from './section/h-list';
+import FocusableBox from '@/src/components/focusable-box';
 
 interface Props {
     title: string;
@@ -11,37 +11,35 @@ interface Props {
 export default function Categories({ title, focusable }: Props) {
     const scale = useScale();
     const styles = useStyles();
+    const categoryData = ['movies', 'TV shows', 'documentaries'];
 
-    const [selectedCategory, setSelectedCategory] = React.useState('1');
-
-    const onCategoryFocused = (id: number) => {
-        setSelectedCategory(id.toString());
-    };
-
-    const categoryData = [1, 2, 3, 4, 5];
-    const getSelectedItemPrefix = (selectedCategory: string) => {
-        if (selectedCategory === null) {
-            return 'Item';
-        }
-
-        return `Category ${selectedCategory} - Item`;
+    const renderItem: any = ({ item, index }: { item: Show, index: number }) => {
+        return (
+            <FocusableBox
+                onPress={() => { }}
+                onFocus={() => { }}
+                width={200 * scale}
+                height={50 * scale}
+                text={item}
+            />
+        );
     };
 
     return (
-        <View style={styles.mb5}>
+        <View style={styles.mv}>
             <TVFocusGuideView
                 autoFocus
                 style={styles.rowTop}
                 focusable={focusable}
-                importantForAccessibility={focusable === false ? 'no-hide-descendants' : 'auto'}>
+                importantForAccessibility={focusable === false ? 'no-hide-descendants' : 'auto'}
+            >
                 <Text style={styles.rowTitle}>{title}</Text>
-                <HList
-                    prefix="Category"
-                    itemCount={5}
+                <FlatList
+                    keyExtractor={item => item}
                     data={categoryData}
-                    itemHeight={50 * scale}
-                    itemWidth={200 * scale}
-                    onItemFocused={() => { }}
+                    renderItem={renderItem}
+                    horizontal
+                    contentContainerStyle={{ gap: 8 * scale, paddingHorizontal: 8 * scale }}
                 />
             </TVFocusGuideView>
 
@@ -52,8 +50,8 @@ export default function Categories({ title, focusable }: Props) {
 const useStyles = () => {
     const scale = useScale();
     return StyleSheet.create({
-        mb5: {
-            marginBottom: 5 * scale
+        mv: {
+            marginVertical: 16 * scale
         },
         rowTitle: {
             fontSize: 24 * scale,

@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
+import { RelativePathString, router } from 'expo-router';
 import { useScale } from '@/src/hooks/useScale';
 import MenuItem from './menu-item';
-import { RelativePathString, router } from 'expo-router';
-
 
 const SideMenu = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
 
     const onNavigate = (route: string) => {
-        // Implement navigation logic here
-        console.log(`Navigating to ${route}`);
         router.push(`/${route}` as RelativePathString);
     }
 

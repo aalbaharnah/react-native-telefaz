@@ -1,11 +1,13 @@
+/**
+ * AlertProvider.tsx
+ * This is a React context provider for displaying custom alerts using React's Modal.
+ */
+
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-import { Modal, StyleSheet, Text, View, PixelRatio } from 'react-native';
-import { useScale } from '../hooks/useScale';
-import FocusableBox from '../components/focusable-box';
-import { useTheme } from '../hooks/useTheme';
-import { scaled } from '../lib/utils';
-
-
+import { Modal, StyleSheet, Text, View } from 'react-native';
+import { useScale } from '@/src/hooks/useScale';
+import FocusableBox from '@/src/components/focusable-box';
+import { useTheme } from '@/src/hooks/useTheme';
 
 type setAlertProps = {
     message: string;
@@ -26,7 +28,6 @@ const AlertContext = createContext<AlertContextProps>({
 export default function AlertProvider({ children }: PropsWithChildren<{}>) {
     const styles = useStyles();
     const scale = useScale();
-    const theme = useTheme();
 
     const [visible, setVisible] = useState(false);
 

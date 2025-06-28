@@ -1,5 +1,5 @@
-import { PixelRatio } from "react-native";
-import { useScale } from "../hooks/useScale";
+// this is a utility file that contains various helper functions and types used throughout the application
+
 /**
  * Checks if a string is a valid JSON string.
  * @param str string to check if it is a valid JSON string
@@ -32,9 +32,3 @@ export function generateData(length: number = 10, randomize: boolean = false) {
         return index;
     });
 };
-
-
-export function scaled(value: number) {
-    const scale = useScale();
-    return value * scale;
-}

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, TVFocusGuideView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { VideoPlayer } from 'expo-video';
 import { useEvent } from 'expo';
-import { LinearGradient } from 'expo-linear-gradient';
 import ControlButton from '@/src/components/player/control-button';
-import ProgressBar from './progress-bar';
 import { useScale } from '@/src/hooks/useScale';
+import ProgressBar from './progress-bar';
 
 interface Props {
     player: VideoPlayer;
