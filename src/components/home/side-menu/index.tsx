@@ -2,21 +2,28 @@ import * as React from 'react';
 import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
 import { useScale } from '@/src/hooks/useScale';
 import MenuItem from './menu-item';
+import { RelativePathString, router } from 'expo-router';
 
 
 const SideMenu = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
 
+    const onNavigate = (route: string) => {
+        // Implement navigation logic here
+        console.log(`Navigating to ${route}`);
+        router.push(`/${route}` as RelativePathString);
+    }
+
     return (
         <TVFocusGuideView autoFocus style={styles.sideMenuContainer} ref={forwardedRef}>
             <View style={{ flex: 1 }}>
-                <MenuItem text='Home' icon="home-outline" />
-                <MenuItem text='Search' icon="search-outline" />
-                <MenuItem text='Favories' icon="bookmark-outline" />
-                <MenuItem text='Library' icon='library-outline' />
+                <MenuItem text='Home' icon="home-outline" onPress={() => onNavigate("home")} />
+                <MenuItem text='Favories' icon="bookmark-outline" onPress={() => onNavigate('favorites')} />
+                <MenuItem text='Search' icon="search-outline" onPress={() => onNavigate("search")} />
+                <MenuItem text='Library' icon='library-outline' onPress={() => onNavigate("library")} />
             </View>
             <View>
-                <MenuItem text='Settings' icon="settings-outline" />
+                <MenuItem text='Settings' icon="settings-outline" onPress={() => onNavigate("settings")} />
             </View>
         </TVFocusGuideView>
     );

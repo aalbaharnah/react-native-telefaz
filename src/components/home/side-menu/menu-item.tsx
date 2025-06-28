@@ -52,6 +52,7 @@ const MenuItem = React.forwardRef(({ text, icon, onPress }: Props, forwardRef: a
             style={state => [
                 styles.item,
                 state.focused && { borderColor: theme.border, borderWidth: 4 },
+                state.pressed && { transform: [{ scale: 0.95 }] },
             ]}>
             <AnimatedIcon name={icon as "home"} size={24 * scale} style={animatedStyle} />
             {text !== undefined ? (
