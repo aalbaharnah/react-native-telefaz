@@ -1,9 +1,11 @@
 import FocusableBox from "@/src/components/focusable-box";
 import { useScale } from "@/src/hooks/useScale";
-import { useTheme } from "@/src/hooks/useTheme";
+import { themes, useTheme } from "@/src/hooks/useTheme";
+import { useFavoritesStore } from "@/src/zustand/favorites.store";
 import { useFocusedShowStore } from "@/src/zustand/focused-show.store";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { use, useEffect, useRef, useState } from "react";
+import { use, useEffect, useMemo, useRef, useState } from "react";
 import { View, StyleSheet, Text, ImageBackground, TVFocusGuideView, Pressable } from "react-native";
 
 export default function ShowScreen() {
@@ -11,7 +13,22 @@ export default function ShowScreen() {
 
     const theme = useTheme();
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
+
+    const { favorites, setFavorites } = useFavoritesStore()
+
+    const scale = useScale();
     const styles = useStyles();
+
+
+    const onFavoritePress = () => {
+        if (!focusedShow) return;
+        setFavorites(focusedShow)
+    }
+
+    const isFavorite = useMemo(() => {
+        if (!focusedShow) return false;
+        return favorites.some(fav => fav.id === focusedShow.id);
+    }, [focusedShow, favorites]);
 
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -25,13 +42,31 @@ export default function ShowScreen() {
 
                 </View>
 
-                <View style={styles.view}>
-                    <FocusableBox style={styles.sideMenuItem} onFocus={() => { }}
-                        text="Play"
+                <LinearGradient
+                    style={styles.overlay}
+                    colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 1)',]}
+                >
+                    <Pressable
                         onPress={() => router.push(`/home/${focusedShow?.id}/player`)}
-                    />
-                    <FocusableBox style={styles.sideMenuItem} onFocus={() => { }} />
-                </View>
+                        style={state => [
+                            styles.play,
+                            state.focused && { borderColor: theme.text, borderWidth: 4 * scale },
+                            state.pressed && { transform: [{ scale: 0.95 }] },
+                        ]}>
+
+                        <Text style={{ fontSize: 24 * scale, color: theme.text }}>{"Play Now"}</Text>
+                    </Pressable>
+                    <Pressable
+                        onPress={onFavoritePress}
+                        style={state => [
+                            styles.favorite,
+                            state.focused && { borderColor: theme.tint, borderWidth: 4 * scale },
+                            state.pressed && { transform: [{ scale: 0.95 }] },
+                        ]}>
+
+                        <Text style={{ fontSize: 24 * scale, color: theme.text }}>{!isFavorite ? "Add to Favorite" : "Remove from Favorite"}</Text>
+                    </Pressable>
+                </LinearGradient>
             </ImageBackground>
         </View >
     );
@@ -60,16 +95,33 @@ const useStyles = () => {
             width: '100%',
             height: '100%',
         },
-        view: {
+        overlay: {
             flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             flexDirection: 'row',
             alignItems: 'center',
+            gap: 24 * scale,
+            paddingHorizontal: 72 * scale,
         },
         sideMenuItem: {
             width: 80 * scale,
             height: 80 * scale,
             marginBottom: 6 * scale,
         },
+        play: {
+            width: 250 * scale,
+            height: 80 * scale,
+            backgroundColor: 'rgba(237, 69, 50, 1)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 4,
+        },
+        favorite: {
+            width: 250 * scale,
+            height: 80 * scale,
+            backgroundColor: '#333',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 4,
+        }
     })
 }

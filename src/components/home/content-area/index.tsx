@@ -8,9 +8,13 @@ import ShowPreview from "../show-preview";
 import FocusableBox from "../../focusable-box";
 import { useQueries } from "@tanstack/react-query";
 import api from "@/src/lib/api";
+import { useFavoritesStore } from "@/src/zustand/favorites.store";
 
 const ContentArea = React.forwardRef((_, forwardedRef: any) => {
     const styles = useStyles();
+
+    const favorites = useFavoritesStore(s => s.favorites);
+
     const [movies, series, documentries] = useQueries({
         queries: [
             {
@@ -49,7 +53,13 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
                     loading={series.isLoading}
                     title="Series"
                 />
-
+                {favorites.length > 0 && (
+                    <Section
+                        data={favorites}
+                        loading={false}
+                        title="Favorites"
+                    />
+                )}
                 <TVFocusGuideView style={styles.cols}>
                     <Col title="Genres" />
                 </TVFocusGuideView>
