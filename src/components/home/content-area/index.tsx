@@ -3,12 +3,11 @@ import { ScrollView, Text, TVFocusGuideView, StyleSheet } from "react-native";
 import { useQueries } from "@tanstack/react-query";
 import api from "@/src/lib/api";
 import { useScale } from "@/src/hooks/useScale";
-import { generateData } from "@/src/lib/utils";
-import Section from "./section";
-import ShowPreview from "./show-preview";
 import FocusableBox from "@/src/components/focusable-box";
 import { useFavoritesStore } from "@/src/zustand/favorites.store";
 import { useProfileStore } from "@/src/zustand/profile.store";
+import Section from "./section";
+import ShowPreview from "./show-preview";
 import Categories from "./categories";
 import { Show } from "@/src/lib/types";
 
@@ -33,8 +32,6 @@ const ContentArea = React.forwardRef((_, forwardedRef: any) => {
             }
         ],
     });
-
-
 
     return (
         <TVFocusGuideView ref={forwardedRef} autoFocus style={{ flex: 1 }}>

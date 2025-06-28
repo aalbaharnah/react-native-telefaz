@@ -28,6 +28,7 @@ export default function ShowPreview() {
             >
                 <View focusable={false} style={styles.details}>
                     <Text style={styles.title}>{focusedShow?.original_title ?? focusedShow?.original_name ?? ""}</Text>
+                    <Text style={styles.date}>{focusedShow?.release_date ?? focusedShow?.first_air_date}</Text>
                     <Text style={styles.plot} numberOfLines={6}>{focusedShow?.overview}</Text>
                 </View>
             </LinearGradient>
@@ -75,6 +76,11 @@ const useStyles = function () {
             color: '#fff',
             fontFamily: 'IBMPlexSansArabic-Bold',
             bottom: 4 * scale,
+        },
+        date: {
+            fontSize: 24 * scale,
+            color: '#ccc',
+            marginBottom: 8 * scale,
         },
         plot: {
             fontSize: 24 * scale,
