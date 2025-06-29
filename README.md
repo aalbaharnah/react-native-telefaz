@@ -11,7 +11,11 @@ https://github.com/user-attachments/assets/d0f8e41b-fa7d-4365-bf84-f59fd23c4fc8
 ## 🚀 كيفية التشغيل
 
 - `cd` into the project
-
+- Create `.env` file and enviroment variable
+```
+EXPO_PUBLIC_TMDB_API_KEY=your_api_key_here
+``` 
+- Run the app
 ```sh
 npm install
 npm run prebuild # Executes Expo prebuild with TV modifications
