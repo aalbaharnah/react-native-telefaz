@@ -1,8 +1,11 @@
 import { ImageBackground, StyleSheet, View, Text } from 'react-native';
 import { useScale } from '@/src/hooks/useScale';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { LinearTransition, FadingTransition, FadeOut, FadeIn, FadeInRight, FadeOutLeft, FadeInDown } from 'react-native-reanimated';
 import { useTheme } from '@/src/hooks/useTheme';
 import { useFocusedShowStore } from '@/src/zustand/focused-show.store';
+
+const ReImageBackground = Animated.createAnimatedComponent(ImageBackground);
 
 export default function ShowPreview() {
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
@@ -14,7 +17,7 @@ export default function ShowPreview() {
         : require('@/assets/images/partial-react-logo.png');
 
     return (
-        <ImageBackground
+        <ReImageBackground
             style={styles.header}
             source={source}
             resizeMode='cover'
@@ -26,13 +29,13 @@ export default function ShowPreview() {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <View focusable={false} style={styles.details}>
-                    <Text style={styles.title}>{focusedShow?.original_title ?? focusedShow?.original_name ?? ""}</Text>
-                    <Text style={styles.date}>{focusedShow?.release_date ?? focusedShow?.first_air_date}</Text>
-                    <Text style={styles.plot} numberOfLines={6}>{focusedShow?.overview}</Text>
-                </View>
+                <Animated.View focusable={false} style={styles.details}>
+                    <Animated.Text entering={FadeInDown} key={focusedShow?.id + "title"} style={styles.title}>{focusedShow?.original_title ?? focusedShow?.original_name ?? ""}</Animated.Text>
+                    <Animated.Text entering={FadeIn} exiting={FadeOut} key={focusedShow?.id + "date"} style={styles.date}>{focusedShow?.release_date ?? focusedShow?.first_air_date}</Animated.Text>
+                    <Animated.Text entering={FadeIn} exiting={FadeOut} key={focusedShow?.id + "overview"} style={styles.plot} numberOfLines={6}>{focusedShow?.overview}</Animated.Text>
+                </Animated.View>
             </LinearGradient>
-        </ImageBackground>
+        </ReImageBackground>
     );
 }
 
@@ -68,7 +71,8 @@ const useStyles = function () {
         },
         details: {
             flexDirection: 'column',
-            padding: 10 * scale,
+            paddingHorizontal: 24 * scale,
+            paddingVertical: 12 * scale,
             width: '100%'
         },
         title: {
