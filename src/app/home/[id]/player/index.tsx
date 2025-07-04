@@ -8,6 +8,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import useAppState from '@/src/hooks/useAppState';
 import useBackHandler from '@/src/hooks/useBackHandler';
 import { usePlaylistStore } from '@/src/zustand/playlist.store';
+import useNavigationBeforeRemove from '@/src/hooks/useNavigationBeforeRemove';
 
 
 export default function Player() {
@@ -41,7 +42,7 @@ export default function Player() {
 
     useAppState(captureProgress)
     useBackHandler(captureProgress)
-
+    useNavigationBeforeRemove(captureProgress)
 
     useEventListener(player, 'statusChange', ({ status, error }) => {
         setPlayerStatus(status);
