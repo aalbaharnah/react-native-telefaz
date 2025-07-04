@@ -3,24 +3,33 @@ import axios from 'axios';
 import { getStorage } from '../async-storage';
 import configs from './configs';
 import { Show } from '../types';
-
+import { movies, series, documentaries } from "../mock-data";
 
 // Fetch popular movies, TV shows, and documentaries from The Movie Database (TMDB) API
 export async function getMovies() {
-    return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/movie/popular?api_key=${configs.tmdbApiKey}&page=1`)
-        .then(res => res.results);
+    // return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/movie/popular?api_key=${configs.tmdbApiKey}&page=1`)
+    //     .then(res => res.results);
+    return new Promise<Show[]>((resolve, reject) => {
+        resolve(movies)
+    });
 }
 
 // Fetch popular TV shows from The Movie Database (TMDB) API
 export async function getTVShows() {
-    return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/tv/popular?api_key=${configs.tmdbApiKey}&page=1`)
-        .then(res => res.results);
+    // return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/tv/popular?api_key=${configs.tmdbApiKey}&page=1`)
+    //     .then(res => res.results);
+    return new Promise<Show[]>((resolve, reject) => {
+        resolve(series as any[])
+    });
 }
 
 // Fetch documentary shows from The Movie Database (TMDB) API
 export async function getDocumentaryShows() {
-    return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/discover/tv?api_key=${configs.tmdbApiKey}&with_genres=99&page=1`)
-        .then(res => res.results);
+    // return GET<{ results: Show[] }>(`https://api.themoviedb.org/3/discover/tv?api_key=${configs.tmdbApiKey}&with_genres=99&page=1`)
+    //     .then(res => res.results);
+    return new Promise<Show[]>((resolve, reject) => {
+        resolve(documentaries as any[])
+    });
 }
 
 
