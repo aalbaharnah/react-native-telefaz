@@ -8,7 +8,6 @@ import { useScale } from '@/src/hooks/useScale';
 import ProfileCircle from '@/src/components/choose-profile/profile-circle';
 import { useProfileStore } from '@/src/zustand/profile.store';
 import { Profile } from '@/src/lib/types';
-import FocusableBox from '../components/focusable-box';
 import { useAlert } from '../providers/alert.provider';
 
 const dummyProfiles: Profile[] = [{
@@ -32,7 +31,7 @@ export default function HomeScreen() {
 
     const onChooseProfile = (profile: Profile) => {
         setProfile(profile);
-        router.replace('/home');
+        router.push('/home');
     }
 
     return (

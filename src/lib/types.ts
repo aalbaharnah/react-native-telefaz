@@ -39,10 +39,9 @@ export type Show = {
 }
 
 export type PlayListItem = {
-    id: number;
     show_id: number;
     profile_id: number;
     created_at: string;
-    updated_at: string;
+    updated_at?: string;
     current_time: number;
 }

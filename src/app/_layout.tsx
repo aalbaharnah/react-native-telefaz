@@ -1,15 +1,14 @@
+import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated';
-
+import { LogBox } from 'react-native';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { QueryClientProvider } from '@tanstack/react-query';
 import client from '@/src/lib/react-query';
 import AlertProvider from '../providers/alert.provider';
+
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

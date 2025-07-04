@@ -4,28 +4,48 @@ import { useVideoPlayer, VideoPlayerStatus, VideoView } from 'expo-video';
 import { useRef, useState } from 'react';
 import { useEventListener } from 'expo';
 import ControllerContainer from '@/src/components/player/controller-container';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import useAppState from '@/src/hooks/useAppState';
+import useBackHandler from '@/src/hooks/useBackHandler';
+import { usePlaylistStore } from '@/src/zustand/playlist.store';
+
 
 export default function Player() {
-
+    const params = useLocalSearchParams();
     const [loading, setLoading] = useState(true);
-
     const destinationItemRef = useRef<any>(null);
     const [playerStatus, setPlayerStatus] = useState<VideoPlayerStatus>('idle');
-
+    const updatePlaylistItemProgress = usePlaylistStore(s => s.updatePlaylistItemProgress);
 
     // Replace with your video URL
     const video_url = Platform.isTVOS ? 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' : 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd'
     // const video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'; 
+
+
     const player = useVideoPlayer(video_url, (p) => {
+        const previousTime = params.t ? parseFloat(params.t as string) : 0;
+        p.currentTime = previousTime; // Set the initial time if provided
         p.timeUpdateEventInterval = 0.50; // Update every second
         p.play();
     });
 
 
+    const captureProgress = () => {
+        if (!player) return;
+
+        const show_id = params.id ? parseInt(params.id as string) : 0;
+        const profile_id = 1; // Assuming a default profile_id, you might want to
+        const progress = player?.currentTime || 0;
+        updatePlaylistItemProgress(show_id, profile_id, progress);
+    }
+
+    useAppState(captureProgress)
+    useBackHandler(captureProgress)
+
 
     useEventListener(player, 'statusChange', ({ status, error }) => {
         setPlayerStatus(status);
+
         switch (status) {
             case "readyToPlay":
                 setLoading(false);
@@ -43,8 +63,6 @@ export default function Player() {
             default:
                 break;
         }
-
-        console.log('Player status changed: ', status);
     });
 
     return (

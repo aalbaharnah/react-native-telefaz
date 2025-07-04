@@ -8,9 +8,10 @@ interface Props {
     data?: Show[] | any[];
     loading?: boolean;
     title: string;
+    autoFocus?: boolean;
 }
 
-function Section({ data, title, loading }: Props) {
+function Section({ data, title, loading, autoFocus }: Props) {
     const scale = useScale();
     const styles = useStyles();
     const listRef = React.useRef<React.ElementRef<typeof FlatList> | null>(null);
@@ -20,12 +21,8 @@ function Section({ data, title, loading }: Props) {
     };
 
     return (
-        <TVFocusGuideView autoFocus style={styles.mb5}>
-            <Text
-                style={[
-                    styles.rowTitle,
-                    { marginLeft: 16 * scale, marginVertical: 16 * scale },
-                ]}>
+        <TVFocusGuideView autoFocus={autoFocus} style={styles.mb5}>
+            <Text style={styles.rowTitle}>
                 Top {data?.length || 0} {title}
             </Text>
             <HList
@@ -49,6 +46,8 @@ const useStyles = () => {
         },
         rowTitle: {
             fontSize: 24 * scale,
+            marginLeft: 16 * scale,
+            marginVertical: 16 * scale,
             fontFamily: "IBMPlexSansArabic-Bold",
             color: '#fff'
         },
