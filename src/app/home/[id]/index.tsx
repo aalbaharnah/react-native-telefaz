@@ -3,22 +3,36 @@ import { useScale } from "@/src/hooks/useScale";
 import { themes, useTheme } from "@/src/hooks/useTheme";
 import { useFavoritesStore } from "@/src/zustand/favorites.store";
 import { useFocusedShowStore } from "@/src/zustand/focused-show.store";
+import { usePlaylistStore } from "@/src/zustand/playlist.store";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { use, useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, Text, ImageBackground, TVFocusGuideView, Pressable } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, TVFocusGuideView, Pressable, Alert } from "react-native";
 
 export default function ShowScreen() {
     const ref = useRef<typeof TVFocusGuideView>(null);
 
     const theme = useTheme();
     const focusedShow = useFocusedShowStore(s => s.focusedShow);
-
+    const playlistItem = usePlaylistStore(s => s.playlist.find(item => item.show_id === focusedShow?.id));
     const { favorites, setFavorites } = useFavoritesStore()
 
     const scale = useScale();
     const styles = useStyles();
 
+    const onPlayNowPress = () => {
+        if (!focusedShow) {
+            Alert.alert("Error", "No show is currently focused.", [
+                {
+                    text: "OK",
+                    onPress: () => router.back(),
+                },
+            ]);
+            return;
+        };
+
+        router.push(`/home/${focusedShow?.id}/player?t=${playlistItem?.current_time ?? 0}`);
+    }
 
     const onFavoritePress = () => {
         if (!focusedShow) return;
@@ -47,7 +61,7 @@ export default function ShowScreen() {
                     colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 1)',]}
                 >
                     <Pressable
-                        onPress={() => router.push(`/home/${focusedShow?.id}/player`)}
+                        onPress={onPlayNowPress}
                         style={state => [
                             styles.play,
                             state.focused && { borderColor: theme.text, borderWidth: 4 * scale },

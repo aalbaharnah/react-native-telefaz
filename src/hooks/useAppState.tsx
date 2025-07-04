@@ -8,7 +8,7 @@ export default function useAppState(fn?: (nextAppState?: string) => void) {
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', nextAppState => {
-            if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
+            if (appStateRef.current.match(/inactive|background/) && nextAppState !== 'active') {
                 if (fn) fn(nextAppState);
             }
             appStateRef.current = nextAppState;
@@ -17,7 +17,6 @@ export default function useAppState(fn?: (nextAppState?: string) => void) {
 
         return () => {
             subscription.remove();
-            if (fn) fn(appStateRef.current);
         };
     }, []);
 
