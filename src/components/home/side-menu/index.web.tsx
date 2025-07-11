@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, TVFocusGuideView, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 import { useScale } from '@/src/hooks/useScale';
 import MenuItem from './menu-item';
@@ -12,7 +12,7 @@ const SideMenu = React.forwardRef((_, forwardedRef: any) => {
     }
 
     return (
-        <TVFocusGuideView autoFocus style={styles.sideMenuContainer} ref={forwardedRef}>
+        <View style={styles.sideMenuContainer} ref={forwardedRef}>
             <View style={{ flex: 1 }}>
                 <MenuItem text='Home' icon="home-outline" onPress={() => onNavigate("home")} />
                 <MenuItem text='Favories' icon="bookmark-outline" onPress={() => onNavigate('favorites')} />
@@ -22,7 +22,7 @@ const SideMenu = React.forwardRef((_, forwardedRef: any) => {
             <View>
                 <MenuItem text='Settings' icon="settings-outline" onPress={() => onNavigate("settings")} />
             </View>
-        </TVFocusGuideView>
+        </View>
     );
 });
 

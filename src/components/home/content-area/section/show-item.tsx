@@ -32,9 +32,10 @@ function ShowItem({ item }: Props) {
         <Pressable
             onFocus={onFocus}
             onPress={onPress}
+            onHoverIn={onFocus}
             style={state => [
                 styles.show,
-                { borderColor: state.focused ? theme.tint : "#000000", borderWidth: 4 * scale },
+                { borderColor: (state.focused || state.hovered) ? theme.tint : "#000000", borderWidth: 4 * scale },
                 state.pressed && { transform: [{ scale: 0.95 }] },
             ]}>
 

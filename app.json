@@ -37,7 +37,7 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png",
-      "output": "static"
+      "output": "single"
     },
     "experiments": {
       "typedRoutes": true

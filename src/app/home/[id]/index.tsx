@@ -1,12 +1,11 @@
-import FocusableBox from "@/src/components/focusable-box";
 import { useScale } from "@/src/hooks/useScale";
-import { themes, useTheme } from "@/src/hooks/useTheme";
+import { useTheme } from "@/src/hooks/useTheme";
 import { useFavoritesStore } from "@/src/zustand/favorites.store";
 import { useFocusedShowStore } from "@/src/zustand/focused-show.store";
 import { usePlaylistStore } from "@/src/zustand/playlist.store";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { use, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { View, StyleSheet, Text, ImageBackground, TVFocusGuideView, Pressable, Alert } from "react-native";
 
 export default function ShowScreen() {

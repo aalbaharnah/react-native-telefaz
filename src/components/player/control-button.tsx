@@ -27,7 +27,7 @@ const ControlButton = React.forwardRef(({ icon, onFocus, onPress }: Props, forwa
             onPress={onPress}
             style={state => [
                 styles.button,
-                state.focused && { borderColor: theme.tint },
+                (state.focused || state.hovered) && { borderColor: theme.tint },
                 state.pressed && { transform: [{ scale: 0.95 }] },
             ]}>
             <Ionicons name={icon} color="#fff" size={24 * scale} />

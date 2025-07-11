@@ -20,4 +20,6 @@ if (process.env?.EXPO_TV === '1') {
   config.resolver.sourceExts = tvSourceExts;
 }
 
+config.resolver.unstable_enablePackageExports = false;
+
 module.exports = config;

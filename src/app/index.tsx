@@ -56,9 +56,7 @@ export default function HomeScreen() {
                     <Ionicons name="add" size={scale * 50} color={theme.text} />
                 </ProfileCircle>
             </View>
-
-
-        </View >
+        </View>
     );
 };
 
