@@ -52,7 +52,7 @@ const useStyles = () => {
     return StyleSheet.create({
         show: {
             width: 200 * scale,
-            borderRadius: 10,
+            borderRadius: scale * 10,
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',

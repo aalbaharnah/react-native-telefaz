@@ -3,6 +3,7 @@ import * as React from "react";
 import { FlatList, Text, TVFocusGuideView, StyleSheet } from "react-native";
 import HList from "./h-list";
 import { Show } from "@/src/lib/types";
+import SkeletonHList from "./skeleton-h-list";
 
 interface Props {
     data?: Show[] | any[];
@@ -12,25 +13,19 @@ interface Props {
 }
 
 function Section({ data, title, loading, autoFocus }: Props) {
-    const scale = useScale();
     const styles = useStyles();
-    const listRef = React.useRef<React.ElementRef<typeof FlatList> | null>(null);
-
-    const onItemPressed = () => {
-        listRef.current?.scrollToIndex({ index: 0, animated: false });
-    };
+    const listRef = React.useRef<FlatList>(null);
 
     return (
         <TVFocusGuideView autoFocus={autoFocus} style={styles.mb5}>
             <Text style={styles.rowTitle}>
-                Top {data?.length || 0} {title}
+                Top {data?.length || 0} {title} {loading ? "Loading..." : ""}
             </Text>
-            <HList
-                ref={listRef}
-                data={data}
-                itemCount={10}
-                onItemPressed={onItemPressed}
-            />
+            {loading ? (
+                <SkeletonHList />
+            ) : (
+                <HList ref={listRef} data={data} />
+            )}
         </TVFocusGuideView>
     );
 };
