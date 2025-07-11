@@ -45,6 +45,11 @@
     },
     "newArchEnabled": true,
     "name": "react-native-telefaz",
-    "slug": "react-native-telefaz"
+    "slug": "react-native-telefaz",
+    "extra": {
+      "eas": {
+        "projectId": "77046cea-29cd-40ec-b948-3e3fe6e5ec95"
+      }
+    }
   }
 }
