@@ -1,42 +1,26 @@
-// lib/async-storage.ts
-// This file provides utility functions to interact with AsyncStorage in a React Native application.
-
+// PostHogCustomStorage wrpper implementation for React Native using NSUserDefaults for tvOS
+import { PostHogCustomStorage } from 'posthog-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { isJsonString } from './utils';
+import { Settings, Platform } from 'react-native';
 
-export async function getStorage<T>(key: string) {
-    try {
-        const value = await AsyncStorage.getItem(key);
-        if (value !== null) {
-            return (isJsonString(value) ? JSON.parse(value) : value) as T;
+
+class PostHogCustomStoragePolyfil implements PostHogCustomStorage {
+    getItem(name: string): string | null | Promise<string | null> {
+        if (Platform.isTVOS) {
+            return Settings.get(name); // Placeholder
         }
-        return null;
-    } catch (error) {
-        throw new Error(error.message);
+        return AsyncStorage.getItem(name);
     }
+
+    setItem(name: string, value: string): void | Promise<void> {
+        // Implement the logic to set an item in the settings storage
+        if (Platform.isTVOS) {
+            return Settings.set({ [name]: value });
+        }
+        return AsyncStorage.setItem(name, value);
+    }
+
+
 }
 
-export async function setStorage<T>(key: string, value: T) {
-    try {
-        const jsonValue = typeof value !== 'string' ? JSON.stringify(value) : value;
-        await AsyncStorage.setItem(key, jsonValue);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-export async function removeFromStorage(key: string) {
-    try {
-        await AsyncStorage.removeItem(key);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
-export async function clearStorage() {
-    try {
-        await AsyncStorage.clear();
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
+export default new PostHogCustomStoragePolyfil();

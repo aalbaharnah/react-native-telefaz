@@ -19,7 +19,8 @@
       ],
       "expo-router",
       "expo-font",
-      "expo-video"
+      "expo-video",
+      "expo-localization"
     ],
     "android": {
       "edgeToEdgeEnabled": true,

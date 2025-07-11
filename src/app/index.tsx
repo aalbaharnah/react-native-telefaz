@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { View, StyleSheet, Text, Modal, Alert } from "react-native";
+import { View, StyleSheet, Text, Platform, Alert } from "react-native";
 import { router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '@/src/hooks/useTheme';
@@ -9,6 +9,7 @@ import ProfileCircle from '@/src/components/choose-profile/profile-circle';
 import { useProfileStore } from '@/src/zustand/profile.store';
 import { Profile } from '@/src/lib/types';
 import { useAlert } from '@/src/providers/alert.provider';
+import { usePostHog } from 'posthog-react-native';
 
 const dummyProfiles: Profile[] = [{
     id: 1,
@@ -25,12 +26,23 @@ export default function HomeScreen() {
     const theme = useTheme();
     const styles = useStyles();
     const scale = useScale();
+    const posthog = usePostHog();
 
     const setProfile = useProfileStore(s => s.setProfile)
     const { setAlert } = useAlert();
 
     const onChooseProfile = (profile: Profile) => {
         setProfile({ ...profile, login_at: new Date().toISOString() });
+
+        // Track profile selection
+        posthog.identify(profile.user_id.toString(), {
+            name: profile.name,
+            profile_picture: profile.profile_picture,
+            platform: Platform.OS,
+        });
+        posthog.capture('profile_chosen', { profile_id: profile.id, platform: Platform.OS });
+
+        // Navigate to home
         router.push('/home');
     }
 
