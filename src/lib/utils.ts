@@ -32,3 +32,19 @@ export function generateData(length: number = 10, randomize: boolean = false) {
         return index;
     });
 };
+
+
+/**
+ * check if the user was logged in less than an hour ago
+ * @param loginAt string representing the last login time
+ * @returns boolean indicating whether the user was logged in recently
+ */
+export function wasLoggedInRecently(loginAt?: string): boolean {
+    if (!loginAt) return false;
+
+    const lastLogin = new Date(loginAt);
+    const now = new Date();
+    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+
+    return now.getTime() - lastLogin.getTime() <= oneHour;
+}
