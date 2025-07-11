@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import FocusableBox from '../components/focusable-box';
+import FocusableBox from '../../components/focusable-box';
 
 // Mock the custom hooks
-jest.mock('../hooks/useTheme', () => ({
+jest.mock('../../hooks/useTheme', () => ({
     useTheme: () => ({
         card: '#ffffff',
         text: '#000000',
@@ -11,7 +11,7 @@ jest.mock('../hooks/useTheme', () => ({
     }),
 }));
 
-jest.mock('../hooks/useScale', () => ({
+jest.mock('../../hooks/useScale', () => ({
     useScale: () => 1,
 }));
 
@@ -164,18 +164,18 @@ describe('FocusableBox', () => {
     describe('TV scaling', () => {
         beforeEach(() => {
             // Mock useScale to return TV scale factor
-            jest.doMock('../hooks/useScale', () => ({
+            jest.doMock('../../hooks/useScale', () => ({
                 useScale: () => 1.5, // TV scale factor
             }));
         });
 
         afterEach(() => {
-            jest.dontMock('../hooks/useScale');
+            jest.dontMock('../../hooks/useScale');
         });
 
         it('applies correct border width with TV scaling', () => {
             // Re-import with mocked scale
-            const FocusableBoxWithScale = require('../components/focusable-box').default;
+            const FocusableBoxWithScale = require('../../components/focusable-box').default;
 
             const { getByTestId } = render(
                 <FocusableBoxWithScale testID="focusable-box" />
@@ -187,7 +187,7 @@ describe('FocusableBox', () => {
 
         it('applies correct font size with TV scaling', () => {
             // Re-import with mocked scale
-            const FocusableBoxWithScale = require('../components/focusable-box').default;
+            const FocusableBoxWithScale = require('../../components/focusable-box').default;
 
             const { getByText } = render(
                 <FocusableBoxWithScale text="Scaled Text" />
