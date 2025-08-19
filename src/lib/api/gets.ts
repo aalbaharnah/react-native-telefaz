@@ -1,6 +1,6 @@
 // axios api layer for getting data from the server
 import axios from 'axios';
-import { getStorage } from '../async-storage';
+import storage from '../async-storage';
 import configs from './configs';
 import { Show } from '../types';
 import { movies, series, documentaries } from "../mock-data";
@@ -44,7 +44,7 @@ async function GET<Result = any>(url: string, token?: string | null) {
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
-            const fallbackToken = await getStorage('auth.token');
+            const fallbackToken = await storage.getItem('auth.token');
             if (fallbackToken) {
                 axios.defaults.headers.common[
                     'Authorization'

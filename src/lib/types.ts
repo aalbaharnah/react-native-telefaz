@@ -13,6 +13,7 @@ export type Profile = {
     name: string;
     user_id: number;
     profile_picture: string | null;
+    login_at?: string;
     created_at: string;
     updated_at: string;
     favorites: Show[];

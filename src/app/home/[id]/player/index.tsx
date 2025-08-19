@@ -55,8 +55,11 @@ export default function Player() {
                 setLoading(true);
                 break;
             case "error":
-                Alert.alert("Error", `An error occurred: ${error?.message || 'Unknown error'}`);
-                router.back();
+                Alert.alert(
+                    "Error",
+                    `An error occurred: ${error?.message || 'Unknown error'}`,
+                    [{ text: "OK", onPress: () => router.back() }]
+                );
                 break;
             case "idle":
                 // Handle idle state

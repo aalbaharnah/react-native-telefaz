@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
+import { StyleSheet, TVFocusGuideView, View } from 'react-native';
 import { RelativePathString, router } from 'expo-router';
 import { useScale } from '@/src/hooks/useScale';
 import MenuItem from './menu-item';

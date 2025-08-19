@@ -20,9 +20,10 @@ export default function ProfileCircle({ name, delay = 0, onPress, children }: Pr
         <BounceInView style={styles.container} delay={delay}>
             <Pressable
                 onPress={onPress}
+
                 style={state => [
                     styles.profile,
-                    state.focused && { borderColor: theme.tint, },
+                    (state.focused || state.hovered) && { borderColor: theme.tint, },
                     state.pressed && { transform: [{ scale: 0.95 }] },
                 ]}>
                 {children}

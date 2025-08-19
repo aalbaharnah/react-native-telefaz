@@ -7,6 +7,7 @@ import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-rean
 import { QueryClientProvider } from '@tanstack/react-query';
 import client from '@/src/lib/react-query';
 import AlertProvider from '../providers/alert.provider';
+import PostHogWrapperProvider from '../providers/post-hog-wrapper.provider';
 
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -42,10 +43,12 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={client}>
-      <AlertProvider>
-        <Stack screenOptions={{ headerShown: false }} />
-      </AlertProvider>
-    </QueryClientProvider>
+    <PostHogWrapperProvider>
+      <QueryClientProvider client={client}>
+        <AlertProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </AlertProvider>
+      </QueryClientProvider>
+    </PostHogWrapperProvider>
   );
 }
